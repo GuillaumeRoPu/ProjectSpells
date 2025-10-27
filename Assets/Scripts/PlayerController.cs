@@ -42,13 +42,23 @@ public class BobController : MonoBehaviour
 
     private void Update()
     {
-        //transform.rotation = new Quaternion(transform.rotation.x, _camera.transform.rotation.y, transform.rotation.z, transform.rotation.w);
+        
     }
 
     private void FixedUpdate()
     {
         CheckPlatform();
         Move();
+
+        Vector3 cameraForward = _camera.transform.forward;
+        cameraForward.y = 0; // Ignore vertical tilt
+        cameraForward.Normalize();
+
+        if (cameraForward != Vector3.zero)
+        {
+            transform.forward = cameraForward;
+        }
+
         //_transform.Translate(_direction * Time.deltaTime * 10f);
     }
 
@@ -61,12 +71,11 @@ public class BobController : MonoBehaviour
         right.y = 0;
         right.Normalize();
         Vector3 updatedDirection = (right * _direction.x + forward * _direction.z).normalized;
-        _transform.Translate(updatedDirection * Time.deltaTime * 10f);
-        //Vector3 targetSpeed = _updatedDirection * _speedMove * _speedMult;
-        //Vector3 speedDif = targetSpeed - _rb.linearVelocity * _slippingMeter;
-        //float accelRate = (Mathf.Abs(targetSpeed.x) > 0.01f || Mathf.Abs(targetSpeed.z) > 0.01f) ? _acceleration * _slippingMeter : _decceleration * _slippingMeter;
-        //Vector3 movement = new Vector3(Mathf.Pow(Mathf.Abs(speedDif.x) * accelRate, _velocityPower) * Mathf.Sign(speedDif.x), 0, Mathf.Pow(Mathf.Abs(speedDif.z) * accelRate, _velocityPower) * Mathf.Sign(speedDif.z));
-        //_rb.AddForce(movement);
+        Vector3 targetSpeed = updatedDirection * _speedMove * _speedMult;
+        Vector3 speedDif = targetSpeed - _rb.linearVelocity * _slippingMeter;
+        float accelRate = (Mathf.Abs(targetSpeed.x) > 0.01f || Mathf.Abs(targetSpeed.z) > 0.01f) ? _acceleration * _slippingMeter : _decceleration * _slippingMeter;
+        Vector3 movement = new Vector3(Mathf.Pow(Mathf.Abs(speedDif.x) * accelRate, _velocityPower) * Mathf.Sign(speedDif.x), 0, Mathf.Pow(Mathf.Abs(speedDif.z) * accelRate, _velocityPower) * Mathf.Sign(speedDif.z));
+        _rb.AddForce(movement);
         //if the player is on a platform, it adds the platform Veclocity to the player each frame
         //if (onPlatform)
         //{
@@ -82,6 +91,7 @@ public class BobController : MonoBehaviour
             if (i.collider.CompareTag("Ice"))
             {
                 IcyPlatform();
+                Debug.Log("Ice");
             }
             else if (i.collider.CompareTag("Ground"))
             {
