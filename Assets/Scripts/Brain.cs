@@ -23,21 +23,17 @@ public class Brain : MonoBehaviour
     private void ActionOnPerformed(InputAction.CallbackContext obj)
     {
         var direction = obj.ReadValue<Vector2>();
-        Debug.Log("Action Performed" + direction);
         _playerController.OnMove(new Vector3(direction.x, 0, direction.y));
-        Debug.Log("help");
     }
 
     private void ActionOnStarted(InputAction.CallbackContext obj)
     {
-        Debug.Log("Action Started");
         var direction = obj.ReadValue<Vector2>();
         _playerController.OnMove(new Vector3(direction.x, 0, direction.y));
     }
 
     private void ActionOnCanceled(InputAction.CallbackContext obj)
     {
-        Debug.Log("Action cancelled");
         var direction = Vector2.zero;
         _playerController.OnMove(new Vector3(direction.x, 0, direction.y));
     }

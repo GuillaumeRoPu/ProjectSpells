@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BobController : MonoBehaviour
@@ -7,6 +8,7 @@ public class BobController : MonoBehaviour
     [SerializeField] private Transform _transform;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Camera _camera;
+    [SerializeField] private CameraController _cameraController;
 
     [SerializeField] private float _speedMove;
     [SerializeField] private float _acceleration;
@@ -38,6 +40,11 @@ public class BobController : MonoBehaviour
     {
         _direction = direction.normalized;
         Debug.Log("yahou");
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
@@ -81,6 +88,7 @@ public class BobController : MonoBehaviour
         //{
         //    transform.position += (Vector3)platformVelocity * Time.fixedDeltaTime;
         //}
+        _cameraController.ChangeFOV(_rb.linearVelocity.magnitude / (_speedMove * _speedMult));
     }
 
     private void CheckPlatform()
