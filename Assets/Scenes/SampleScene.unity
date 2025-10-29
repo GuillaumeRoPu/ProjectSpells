@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 291018157}
   - component: {fileID: 291018156}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Normal Platform
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1036,7 +1036,7 @@ GameObject:
   - component: {fileID: 994400716}
   - component: {fileID: 994400715}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Ice platform
   m_TagString: Ice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

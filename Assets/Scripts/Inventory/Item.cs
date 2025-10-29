@@ -1,12 +1,16 @@
 using UnityEngine;
+using System;
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Item/Create New Item")]
-public class Item : ScriptableObject
+[Serializable]
+
+public class Item
 {
+    public string label;
+
     public int id;
     public string itemName;
-    public string displayName;
+    [NonSerialized] public string displayName;
     public int value;
-    public Sprite Icon;
-
+    public Sprite icon;
+    public GameObject prefab;
 }
