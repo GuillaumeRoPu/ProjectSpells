@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d77d08ef8a6d9b4b87e25c5540e3e08, type: 3}
   m_Name: ModifiersDataBase
   m_EditorClassIdentifier: Assembly-CSharp::ItemDataBase
-  category: 1
+  category: 2
   datas:
-  - label: SpellPlaceholder
+  - label: ModifierPlaceholder
     id: 0
-    itemName: Explosion Spell
-    value: 10
+    itemName: MakeBigger
+    value: 100
     icon: {fileID: 21300000, guid: 4055b181415288c4ab1aaa33dabb0c89, type: 3}
-    prefab: {fileID: 8175989164745767634, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
+    prefab: {fileID: 8175989164745767634, guid: 81504889fae74184491c5c95663deb66, type: 3}
   - label: SpellPlaceholder2
     id: 1
-    itemName: Distance Spell
-    value: 15
+    itemName: Make2
+    value: 2
     icon: {fileID: 21300000, guid: 4055b181415288c4ab1aaa33dabb0c89, type: 3}
-    prefab: {fileID: 8175989164745767634, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
+    prefab: {fileID: 8175989164745767634, guid: 81504889fae74184491c5c95663deb66, type: 3}

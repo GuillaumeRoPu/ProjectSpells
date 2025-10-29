@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 1624896285175395912}
   - component: {fileID: 7223258008220709676}
   - component: {fileID: 2618231365484128314}
+  - component: {fileID: -3388448274541738664}
   m_Layer: 0
   m_Name: Spell Item
   m_TagString: Untagged
@@ -420,6 +421,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3388448274541738664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175989164745767634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3907709c4f24d5543ad22c84255bf6ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemController
+  _itemdataBase: {fileID: 11400000, guid: 4750d36c7efcc1043889026bce7b4979, type: 2}
+  _index: 0
 --- !u!1 &8941799318922531050
 GameObject:
   m_ObjectHideFlags: 0
