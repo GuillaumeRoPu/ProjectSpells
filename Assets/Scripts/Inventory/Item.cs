@@ -1,14 +1,13 @@
 using UnityEngine;
 using System;
 
-[Serializable]
-
 public class Item
 {
     public string label;
     public int id;
     public string itemName;
     [NonSerialized] public string displayName;
+    public string description;
     public int value;
     public Sprite icon;
     public GameObject prefab;
@@ -34,12 +33,14 @@ public class Item
     }
 }
 
+[Serializable]
 public class Spell : Item
 {
 
 }
 
-public class Modifiers : Item
+[Serializable]
+public class Modifier : Item
 {
     public enum ModifierType
     {

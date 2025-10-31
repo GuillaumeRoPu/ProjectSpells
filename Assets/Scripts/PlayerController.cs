@@ -1,5 +1,4 @@
 using NaughtyAttributes;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BobController : MonoBehaviour
@@ -56,16 +55,7 @@ public class BobController : MonoBehaviour
     {
         CheckPlatform();
         Move();
-
-        Vector3 cameraForward = _camera.transform.forward;
-        cameraForward.y = 0; // Ignore vertical tilt
-        cameraForward.Normalize();
-
-        if (cameraForward != Vector3.zero)
-        {
-            transform.forward = cameraForward;
-        }
-
+        CameraAdjustement();
         //_transform.Translate(_direction * Time.deltaTime * 10f);
     }
 
@@ -91,9 +81,21 @@ public class BobController : MonoBehaviour
         _cameraController.ChangeFOV(_rb.linearVelocity.magnitude / (_speedMove * _speedMult));
     }
 
+    private void CameraAdjustement()
+    {
+        Vector3 cameraForward = _camera.transform.forward;
+        cameraForward.y = 0;
+        cameraForward.Normalize();
+
+        if (cameraForward != Vector3.zero)
+        {
+            _transform.forward = cameraForward;
+        }
+    }
+
     private void CheckPlatform()
     {
-        RaycastHit[] hit = Physics.RaycastAll(transform.position, -transform.up, 10.0f);
+        RaycastHit[] hit = Physics.RaycastAll(_transform.position, -_transform.up, 10.0f);
         foreach (RaycastHit i in hit)
         {
             if (i.collider.CompareTag("Ice"))

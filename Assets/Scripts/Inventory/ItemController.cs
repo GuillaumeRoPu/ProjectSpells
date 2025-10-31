@@ -2,14 +2,28 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    [SerializeField] private ItemDataBase _itemdataBase;
-    private Item _itemData;
+    [SerializeField] private ModifiersDataBase _modifiersDataBase;
+    [SerializeField] private SpellsDataBase _spellsDataBase;
+    private Modifier _modifierData;
+    private Spell _spellData;
+    [SerializeField] private CATEGORY _category;
     [SerializeField] private int _index;
+    [SerializeField] private bool random = false;
+
 
     void Start()
     {
-        _itemData = _itemdataBase.GetData(_index);
-        Debug.Log(_itemData.itemName);
+        switch (_category)
+        {
+            case CATEGORY.Spells:
+                _spellData = _spellsDataBase.GetData(_index, random);
+                Debug.Log(_spellData.itemName);
+                break;
+            case CATEGORY.Modifiers:
+                _modifierData = _modifiersDataBase.GetData(_index, random);
+                Debug.Log(_modifierData.itemName);
+                break;
+        }
     }
 
     // Update is called once per frame

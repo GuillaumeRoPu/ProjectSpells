@@ -2344,6 +2344,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1874857529}
     m_Modifications:
+    - target: {fileID: -3388448274541738664, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
+      propertyPath: random
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3388448274541738664, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
+      propertyPath: _spellsDataBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 98c2271982b449946881be774381e669, type: 2}
+    - target: {fileID: -3388448274541738664, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
+      propertyPath: _modifiersDataBase
+      value: 
+      objectReference: {fileID: 11400000, guid: dd061a0dc14a68642acbed6a043d658d, type: 2}
     - target: {fileID: 6177927727328982331, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.58

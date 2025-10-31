@@ -9,20 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d77d08ef8a6d9b4b87e25c5540e3e08, type: 3}
+  m_Script: {fileID: 11500000, guid: 3151742fe51142044ac3fb9dd3173d57, type: 3}
   m_Name: ModifiersDataBase
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDataBase
-  category: 2
-  datas:
-  - label: ModifierPlaceholder
-    id: 0
-    itemName: MakeBigger
-    value: 100
-    icon: {fileID: 21300000, guid: 4055b181415288c4ab1aaa33dabb0c89, type: 3}
-    prefab: {fileID: 8175989164745767634, guid: 81504889fae74184491c5c95663deb66, type: 3}
-  - label: SpellPlaceholder2
-    id: 1
-    itemName: Make2
-    value: 2
-    icon: {fileID: 21300000, guid: 4055b181415288c4ab1aaa33dabb0c89, type: 3}
-    prefab: {fileID: 8175989164745767634, guid: 81504889fae74184491c5c95663deb66, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::ModifiersDataBase
+  category: 1
+  datas: []
