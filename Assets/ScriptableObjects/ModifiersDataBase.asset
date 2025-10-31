@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: ModifiersDataBase
   m_EditorClassIdentifier: Assembly-CSharp::ModifiersDataBase
   category: 1
-  datas: []
+  datas:
+  - label: 
+    id: 0
+    itemName: 
+    description: 
+    value: 0
+    icon: {fileID: 0}
+    prefab: {fileID: 0}
+    _modType: 0
