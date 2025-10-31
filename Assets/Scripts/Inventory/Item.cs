@@ -39,11 +39,10 @@ public class Item
 [Serializable]
 public class Spell : Item
 {
-    [Header("Spells Specifications")]
+    [Header("Spells Specifications"), AllowNesting]
     public List<(Modifier modifier, Modifier.ModifierType modifierType)> modifiersList = new();
 
     [Header("Used Spell Parameters")]
-    [AllowNesting]
     public Action onWait1Second;
     public Action onHit;
     public Action onDeath;
