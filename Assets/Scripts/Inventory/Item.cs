@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class Item
 {
     public string label;
@@ -13,6 +14,7 @@ public class Item
     public string description;
     public int value;
     public Sprite icon;
+    [Label("OnGroundObject"), AllowNesting]
     public GameObject prefab;
 
     public virtual void PickUp3D()
@@ -113,4 +115,6 @@ public class Modifier : Item
     }
 
     public ModifierType _modType;
+
+
 }

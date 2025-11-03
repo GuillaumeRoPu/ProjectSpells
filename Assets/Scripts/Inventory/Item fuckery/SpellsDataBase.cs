@@ -8,10 +8,6 @@ public class SpellsDataBase : ItemDataBase
 {
     public CATEGORY category;
 
-
-    [SerializeField, AllowNesting]
-    Spell _s;
-
     [AllowNesting]
     public new List<Spell> datas = new();
 

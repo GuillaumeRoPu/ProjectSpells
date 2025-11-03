@@ -58,7 +58,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b23e04bdbf7cb0f408c5692946627896, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -292,6 +292,7 @@ GameObject:
   - component: {fileID: 7223258008220709676}
   - component: {fileID: 2618231365484128314}
   - component: {fileID: -3388448274541738664}
+  - component: {fileID: 6038179834820579004}
   m_Layer: 0
   m_Name: Spell Item
   m_TagString: Untagged
@@ -307,7 +308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8175989164745767634}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.58, y: 3.06, z: 2.98}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
@@ -433,8 +434,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3907709c4f24d5543ad22c84255bf6ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemController
-  _itemdataBase: {fileID: 11400000, guid: 4750d36c7efcc1043889026bce7b4979, type: 2}
+  _category: 0
+  _modifiersDataBase: {fileID: 11400000, guid: dd061a0dc14a68642acbed6a043d658d, type: 2}
+  _spellsDataBase: {fileID: 11400000, guid: 98c2271982b449946881be774381e669, type: 2}
   _index: 0
+  random: 1
+--- !u!114 &6038179834820579004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175989164745767634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67dabd4e94a70914c876212c3870696a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
+  controller: {fileID: -3388448274541738664}
 --- !u!1 &8941799318922531050
 GameObject:
   m_ObjectHideFlags: 0
@@ -5217,7 +5234,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
+  - {fileID: 2100000, guid: b115384f4cc7aba418532a47a649a928, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

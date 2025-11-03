@@ -38,7 +38,6 @@ public class BobController : MonoBehaviour
     public void OnMove(Vector3 direction)
     {
         _direction = direction.normalized;
-        Debug.Log("yahou");
     }
 
     private void Start()
@@ -101,12 +100,10 @@ public class BobController : MonoBehaviour
             if (i.collider.CompareTag("Ice"))
             {
                 IcyPlatform();
-                Debug.Log("Ice");
             }
             else if (i.collider.CompareTag("Ground"))
             {
                 NormalPlatform();
-                Debug.Log("Ground");
             }
         }
     }

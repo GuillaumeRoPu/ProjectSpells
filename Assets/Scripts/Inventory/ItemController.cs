@@ -3,11 +3,14 @@ using UnityEngine;
 public class ItemController : MonoBehaviour
 {
     [SerializeField] private CATEGORY _category;
+    public CATEGORY CATEGORY { get { return _category; } }
     [SerializeField] private ModifiersDataBase _modifiersDataBase;
     [SerializeField] private SpellsDataBase _spellsDataBase;
     private Modifier _modifierData;
+    public Modifier ModifierData { get { return _modifierData; } }
     private Spell _spellData;
-    [SerializeField] private int _index;
+    public Spell SpellData { get { return _spellData; } }
+    [SerializeField] public int _index;
     [SerializeField] private bool random = false;
 
 
