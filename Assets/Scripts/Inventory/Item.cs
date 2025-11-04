@@ -1,8 +1,10 @@
 using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
+using static Unity.Cinemachine.CinemachineFreeLookModifier;
 
 
 public class Item
@@ -38,18 +40,55 @@ public class Item
     }
 }
 
+public enum ModifierType
+{
+    Size,
+    Damage,
+    Route,
+    Speed,
+    Direction,
+}
+
+[Serializable]
+public class Modifier : Item
+{
+
+    public ModifierType modType;
+
+    public Spell assignedSpell;
+
+    public void AddToSlot(ModifierSlot slot, Spell spell)
+    {
+        if (this.modType == slot.modType && slot.slotMode == ModifierSlot.SlotMode.Modifier)
+        {
+            slot.SetModifier(this);
+            if (assignedSpell == null)
+            {
+                assignedSpell = spell;
+            }
+        }
+    }
+
+    public void RemoveFromSlot(ModifierSlot slot)
+    {
+        slot.RemoveModifier(this);
+        assignedSpell = null;
+    }
+}
+
 [Serializable]
 public class Spell : Item
 {
-    [Header("Spells Specifications"), AllowNesting]
-    public List<(Modifier modifier, Modifier.ModifierType modifierType)> modifiersList = new();
+    public Spell assignedSpell;
 
-    [Header("Used Spell Parameters")]
-    public Action onWait1Second;
-    public Action onHit;
-    public Action onDeath;
-    public UnityEvent onGenerateEvent;
-    public UnityEvent onDeathEvent;
+    [Space(10)]
+    public List<ModifierSlot> modifiersList = new();
+
+    //public Action onWait1Second;
+    //public Action onHit;
+    //public Action onDeath;
+    //public UnityEvent onGenerateEvent;
+    //public UnityEvent onDeathEvent;
     public UnityEvent onEnabled;
     [NonSerialized] public bool isInSpell = false;
 
@@ -69,6 +108,7 @@ public class Spell : Item
         Forward,
         Up,
         Down,
+        NoMove,
         Orbital,
         Heatseaking,
     }
@@ -93,28 +133,101 @@ public class Spell : Item
     [ShowIf(nameof(spellType), SpellType.Summoner)]
     [AllowNesting]
     public int summoner;
-    //Work in progress
+    //HERE ADD ADDITIONAL DATAS TO HOLD IF NEEDED
 
-    public void UsedSpell()
+
+    //Here are ALL THE METHODS OF THIS CLASS
+    public void CastSpell(Vector3 positon, Vector3 direction)
     {
+        return;
+    }
 
+    public void AddToSlot(ModifierSlot slot, Spell spell)
+    {
+        if (slot.slotMode == ModifierSlot.SlotMode.Spell)
+        {
+            slot.SetModifier(this);
+            if (assignedSpell == null)
+            {
+                assignedSpell = spell;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Already a spell in the slot");
+        }
+    }
+
+    public void RemoveFromSlot(ModifierSlot slot)
+    {
+        if(slot.containedSpell == this)
+        {
+            slot.RemoveModifier(this);
+            assignedSpell = null;
+        }
+        else
+        {
+            Debug.LogWarning("TF are you doing");
+        }
     }
 }
 
 [Serializable]
-public class Modifier : Item
+public class ModifierSlot
 {
-    public enum ModifierType
+    public enum SlotMode
     {
-        Random,
-        Size,
-        Damage,
-        Route,
-        Speed,
-        Direction,
+        Spell,
+        Modifier
     }
 
-    public ModifierType _modType;
+    public enum SpellActivationMethod
+    {
+        OnDeath,
+        OnWait1Second,
+        OnCast,
+        OnHit,
+    }
 
+    public SlotMode slotMode;
 
+    [AllowNesting, ShowIf(nameof(slotMode), SlotMode.Modifier)]
+    public ModifierType modType;
+
+    [AllowNesting, ShowIf(nameof(slotMode), SlotMode.Spell)]
+    public SpellActivationMethod spellActMethod;
+
+    [NonSerialized] public Modifier containedModifier;
+
+    [NonSerialized] public Spell containedSpell;
+
+    [NonSerialized] public bool isEmpty = true;
+
+    public void SetModifier(Modifier modifier)
+    {
+        containedModifier = modifier;
+        //InventoryManager.Instance.Remove(modifier);
+        isEmpty = false;
+    }
+
+    public void SetModifier(Spell spell)
+    {
+        containedSpell = spell;
+        //InventoryManager.Instance.Add(spell);
+        isEmpty = false;
+    }
+
+    public void RemoveModifier(Modifier modifier) 
+    {
+        containedModifier = null;
+        //InventoryManager.Instance.Add(modifier);
+        isEmpty = true;
+    }
+
+    public void RemoveModifier(Spell spell)
+    {
+        containedSpell = null;
+        //InventoryManager.Instance.Add(spell);
+        isEmpty = true;
+    }
 }

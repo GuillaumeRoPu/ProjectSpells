@@ -21,12 +21,16 @@ MonoBehaviour:
     value: 0
     icon: {fileID: 21300000, guid: 4055b181415288c4ab1aaa33dabb0c89, type: 3}
     prefab: {fileID: 8175989164745767634, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
-    onGenerateEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    onDeathEvent:
-      m_PersistentCalls:
-        m_Calls: []
+    modifiersList:
+    - slotMode: 1
+      modType: 1
+      spellActMethod: 0
+    - slotMode: 1
+      modType: 0
+      spellActMethod: 0
+    - slotMode: 1
+      modType: 3
+      spellActMethod: 0
     onEnabled:
       m_PersistentCalls:
         m_Calls: []

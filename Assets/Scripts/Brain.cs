@@ -37,5 +37,22 @@ public class Brain : MonoBehaviour
         var direction = Vector2.zero;
         _playerController.OnMove(new Vector3(direction.x, 0, direction.y));
     }
+
+    private void RaycastItem(InputAction.CallbackContext obj)
+    {
+        RaycastHit hit;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
+
+        if(Physics.Raycast(rayOrigin, out hit))
+        {
+            ItemPickup item = hit.transform.gameObject.GetComponent<ItemPickup>();
+            if (hit.transform.gameObject.GetComponent<ItemPickup>() != null)
+            {
+                item.PickUp();
+            }
+        }
+        Debug.Log("PickedUp");
+    }
 }
 

@@ -29,9 +29,15 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetSpell(Spell spell)
     {
-        
+        _spellData = spell;
+        _category = CATEGORY.Spells;
+    }
+
+    public void SetModifier(Modifier modifier)
+    {
+        _modifierData = modifier;
+        _category = CATEGORY.Modifiers;
     }
 }

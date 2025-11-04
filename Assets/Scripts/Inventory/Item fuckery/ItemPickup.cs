@@ -8,15 +8,9 @@ public class ItemPickup : MonoBehaviour
     private Brain _playerBrain;
     private Item _item;
     [SerializeField] private ItemController _controller;
-    [SerializeField] InputActionReference _leftClick;
     public Action onPickup;
 
-    private void Start()
-    {
-        _leftClick.action.started += LeftClicked;
-    }
-
-    void PickUp()
+    public void PickUp()
     {
         switch (_controller.CATEGORY)
         {
@@ -36,16 +30,5 @@ public class ItemPickup : MonoBehaviour
     {
         Debug.Log("PickedUp");
         PickUp();
-    }
-
-    private void LeftClicked(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Raycasted");
-        RaycastHit hit;
-        if (1 == 1)
-        {
-            Debug.Log("PickedUp");
-            PickUp();
-        }
     }
 }
