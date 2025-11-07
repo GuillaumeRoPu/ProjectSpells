@@ -1,10 +1,8 @@
 using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
-using static Unity.Cinemachine.CinemachineFreeLookModifier;
 
 
 public class Item
@@ -13,7 +11,7 @@ public class Item
     public int id;
     public string itemName;
     [NonSerialized] public string displayName;
-    public string description;
+    [TextArea] public string description;
     public int value;
     public Sprite icon;
     [Label("OnGroundObject"), AllowNesting]
@@ -84,9 +82,9 @@ public class Spell : Item
     [Space(10)]
     public List<ModifierSlot> modifiersList = new();
 
-    //public Action onWait1Second;
-    //public Action onHit;
-    //public Action onDeath;
+    public Action onWait1Second;
+    public Action onHit;
+    public Action onDeath;
     //public UnityEvent onGenerateEvent;
     //public UnityEvent onDeathEvent;
     public UnityEvent onEnabled;

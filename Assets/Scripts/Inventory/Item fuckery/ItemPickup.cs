@@ -1,11 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ItemPickup : MonoBehaviour
 {
     //[SerializeField] private ItemDataBase itemDataBase;
-    private Brain _playerBrain;
     private Item _item;
     [SerializeField] private ItemController _controller;
     public Action onPickup;
