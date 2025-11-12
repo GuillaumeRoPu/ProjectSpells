@@ -47,6 +47,10 @@ public class InventoryManager : MonoBehaviour
 
     private void ListSpells()
     {
+        foreach(Transform item in spellsContent)
+        {
+            Destroy(item.gameObject);
+        }
         foreach (var spell in spells)
         {
             GameObject obj = Instantiate(UISpell, spellsContent);
@@ -61,6 +65,10 @@ public class InventoryManager : MonoBehaviour
 
     private void ListModifiers()
     {
+        foreach (Transform item in modifiersContent)
+        {
+            Destroy(item.gameObject);
+        }
         foreach (var modifier in modifiers)
         {
             GameObject obj = Instantiate(UIModifier, modifiersContent);
