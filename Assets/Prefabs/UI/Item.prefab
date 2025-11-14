@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4751161059966162548
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8, y: -8.000008}
-  m_SizeDelta: {x: 14, y: 14}
+  m_AnchoredPosition: {x: -10, y: -10}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &557731363502308021
 CanvasRenderer:
@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 4379392974521995364}
   - component: {fileID: 4573352328042873532}
   - component: {fileID: 4046912170205485308}
+  - component: {fileID: -4717007278663019250}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -322,6 +323,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-4717007278663019250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7189876383549506597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2514f8348a96ca4da51fa5552196d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItemController
+  button: {fileID: 2701013360754821343}
 --- !u!1 &7441883910118386122
 GameObject:
   m_ObjectHideFlags: 0

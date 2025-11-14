@@ -8,11 +8,15 @@ public class InventoryManager : MonoBehaviour
     [field : SerializeField] public List<Spell> spells { get; private set; } = new List<Spell>();
     [field : SerializeField] public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
 
-    public Transform spellsContent;
-    public GameObject UISpell;
+    [SerializeField] private Transform spellsContent;
+    [SerializeField] private GameObject UISpell;
 
-    public Transform modifiersContent;
-    public GameObject UIModifier;
+    [SerializeField] private Transform modifiersContent;
+    [SerializeField] private GameObject UIModifier;
+
+    [SerializeField] private Toggle EnableRemove;
+
+
 
     public void Awake()
     {
@@ -77,6 +81,32 @@ public class InventoryManager : MonoBehaviour
 
             modifierName.text = modifier.itemName;
             modifierIcon.sprite = modifier.icon;
+        }
+    }
+
+    public void EnableItemsRemove()
+    {
+        if (EnableRemove.isOn)
+        {
+            foreach (Transform item in spellsContent)
+            {
+                item.Find("RemoveItem").gameObject.SetActive(true);
+            }
+            foreach (Transform item in modifiersContent)
+            {
+                item.Find("RemoveItem").gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (Transform item in spellsContent)
+            {
+                item.Find("RemoveItem").gameObject.SetActive(false);
+            }
+            foreach (Transform item in modifiersContent)
+            {
+                item.Find("RemoveItem").gameObject.SetActive(false);
+            }
         }
     }
 }
