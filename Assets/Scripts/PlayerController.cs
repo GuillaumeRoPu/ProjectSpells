@@ -3,18 +3,26 @@ using UnityEngine;
 
 public class BobController : MonoBehaviour
 {
+    public static BobController Instance;
+
+    //Reference Stuff
     [SerializeField] private Brain _brain;
     [SerializeField] private Transform _transform;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Camera _camera;
     [SerializeField] private CameraController _cameraController;
 
+    //Movement Stuff
     [SerializeField] private float _speedMove;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _decceleration;
     [SerializeField] private float _velocityPower;
     private float _slippingMeter = 1;
     private float _speedMult = 1;
+
+    //Health Stuff
+    [SerializeField] private float _maxHealth;
+    [SerializeField, ProgressBar(nameof(_maxHealth), EColor.Red)] private float _health;
 
 
     private Vector3 _direction;
@@ -38,6 +46,11 @@ public class BobController : MonoBehaviour
     public void OnMove(Vector3 direction)
     {
         _direction = direction.normalized;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 
     private void Start()
@@ -106,5 +119,47 @@ public class BobController : MonoBehaviour
                 NormalPlatform();
             }
         }
+    }
+
+
+
+
+
+    // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH
+
+    [Button]
+    private void Add20Health()
+    {
+        AddHealth(20);
+    }
+
+    [Button]
+    private void Remove20Health()
+    {
+        RemoveHealth(20);
+    }
+
+    public void AddHealth(float value)
+    {
+        if (value < 0)
+        {
+            Debug.LogWarning("WHY IS THE NUMBER UNDER 0");
+            return;
+        }
+        _health += value;
+        _health = Mathf.Clamp(_health, 0, _maxHealth);
+        Debug.Log("Added Health amount : " + value);
+    }
+
+    public void RemoveHealth(float value)
+    {
+        if (value < 0)
+        {
+            Debug.LogWarning("WHY IS THE NUMBER UNDER 0");
+            return;
+        }
+        _health -= value;
+        _health = Mathf.Clamp(_health, 0, _maxHealth);
+        Debug.Log("Removed Health amount : " + value);
     }
 }

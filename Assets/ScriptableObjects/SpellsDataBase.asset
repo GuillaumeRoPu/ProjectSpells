@@ -18,7 +18,7 @@ MonoBehaviour:
     id: 0
     itemName: Fireball
     description: A basic fireball
-    value: 0
+    value: 10
     icon: {fileID: 21300000, guid: 4055b181415288c4ab1aaa33dabb0c89, type: 3}
     prefab: {fileID: 8175989164745767634, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
     modifiersList:

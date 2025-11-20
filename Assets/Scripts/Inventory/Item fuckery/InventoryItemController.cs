@@ -9,18 +9,25 @@ public class InventoryItemController : MonoBehaviour
     
     public void RemoveItem()
     {
-        if(item is Spell)
+        if (item is Spell)
         {
             InventoryManager.Instance.Remove(item as Spell);
         }
-        else if(item is Modifier)
+        else if (item is Modifier)
         {
             InventoryManager.Instance.Remove(item as Modifier);
-        }    
+        }
+        Destroy(gameObject);
     }
 
     public void AddItem(Item newItem)
     {
         item = newItem;
+    }
+
+    public void UseItem() 
+    {
+        BobController.Instance.AddHealth(item.value);
+        RemoveItem();
     }
 }

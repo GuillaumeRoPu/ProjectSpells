@@ -5,6 +5,9 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
+
+    [SerializeField] private GameObject inventoryPanel;
+
     [field : SerializeField] public List<Spell> spells { get; private set; } = new List<Spell>();
     [field : SerializeField] public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
 
@@ -15,6 +18,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject UIModifier;
 
     [SerializeField] private Toggle EnableRemove;
+
+    public InventoryItemController[] inventorySpells;
+    public InventoryItemController[] inventoryModifiers;
 
 
 
@@ -45,8 +51,12 @@ public class InventoryManager : MonoBehaviour
 
     public void ListItems()
     {
-        ListSpells();
-        ListModifiers();
+        if (!inventoryPanel.activeSelf)
+        {
+            ListSpells();
+            ListModifiers();
+            SetInventoryItems();
+        }
     }
 
     private void ListSpells()
@@ -61,9 +71,15 @@ public class InventoryManager : MonoBehaviour
             obj.name = spell.itemName;
             var spellName = obj.transform.Find("ItemName").GetComponent<Text>();
             var spellIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
+            var removeButton = obj.transform.Find("RemoveItem").gameObject;
 
             spellName.text = spell.itemName;
             spellIcon.sprite = spell.icon;
+
+            if (EnableRemove.isOn)
+            {
+                removeButton.SetActive(true);
+            }
         }
     }
 
@@ -78,9 +94,15 @@ public class InventoryManager : MonoBehaviour
             GameObject obj = Instantiate(UIModifier, modifiersContent);
             var modifierName = obj.transform.Find("ItemName").GetComponent<Text>();
             var modifierIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
+            var removeButton = obj.transform.Find("RemoveItem").gameObject;
 
             modifierName.text = modifier.itemName;
             modifierIcon.sprite = modifier.icon;
+
+            if (EnableRemove.isOn) 
+            {
+                removeButton.SetActive(true);
+            }
         }
     }
 
@@ -109,4 +131,37 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+
+    private void SetInventoryItems()
+    {
+        inventorySpells = spellsContent.GetComponentsInChildren<InventoryItemController>();
+        inventoryModifiers = modifiersContent.GetComponentsInChildren<InventoryItemController>();
+
+        for (int i = 0; i < spells.Count; i++)
+        {
+            inventorySpells[i].AddItem(spells[i]);
+        }
+        for (int i = 0; i < modifiers.Count; i++)
+        {
+            inventoryModifiers[i].AddItem(modifiers[i]);
+        }
+    }
+
+
+    private void ClearInventoryUI()
+    {
+        foreach (Transform item in spellsContent)
+            Destroy(item.gameObject);
+
+        foreach (Transform item in modifiersContent)
+            Destroy(item.gameObject);
+    }
+
+
+    public void CloseInventory()
+    {
+        ClearInventoryUI();
+        inventoryPanel.SetActive(false);
+    }
+
 }
