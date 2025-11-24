@@ -6,10 +6,16 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject _inventoryPanel;
 
-    [field : SerializeField] public List<Spell> spells { get; private set; } = new List<Spell>();
-    [field : SerializeField] public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
+    public List<Spell> spells { get; private set; } = new List<Spell>();
+    public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
+    public List<Spell> equippedSpells { get; private set; } = new List<Spell>();
+    [SerializeField] private int _spellCapacity;
+    [SerializeField] private int _maximumSpellCapacity;
+
+    [field: SerializeField] public Transform equippedSpellsContent { get; private set; }
+    [SerializeField] private GameObject UIEquippedSlot;
 
     [field : SerializeField] public Transform spellsContent { get; private set; }
     [SerializeField] private GameObject UISpell;
@@ -27,6 +33,16 @@ public class InventoryManager : MonoBehaviour
     public void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        Mathf.Clamp(_spellCapacity, 1, _maximumSpellCapacity);
+        for (int i = 0; i < _spellCapacity; i++) 
+        {
+            equippedSpells.Add(null);
+            Debug.Log(i);
+        }
     }
 
     public void Add(Modifier modifier)
@@ -49,13 +65,56 @@ public class InventoryManager : MonoBehaviour
         modifiers.Remove(modifier);
     }
 
+    public void EquipSpell(Spell spell, int position)
+    {
+        equippedSpells[position] = spell;
+        Remove(spell);
+        ListItems();
+    }
+
+    public void UnEquipSpell(Spell spell, int position)
+    {
+        equippedSpells[position] = null;
+        Add(spell);
+        ListItems();
+    }
+
     public void ListItems()
     {
-        if (!inventoryPanel.activeSelf)
+        if (!_inventoryPanel.activeSelf)
         {
             ListSpells();
             ListModifiers();
             SetInventoryItems();
+            ListEquippedSpells();
+        }
+    }
+
+    private void ListEquippedSpells()
+    {
+        foreach (Transform item in equippedSpellsContent)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (var spell in equippedSpells)
+        {
+            GameObject obj = Instantiate(UIEquippedSlot, equippedSpellsContent);
+            var itemUI = obj.transform.Find("Item");
+            if (spell != null)
+            {
+                itemUI.gameObject.SetActive(true);
+                itemUI.name = spell.itemName;
+                var spellName = itemUI.transform.Find("ItemName").GetComponent<Text>();
+                var spellIcon = itemUI.transform.Find("ItemIcon").GetComponent<Image>();
+
+                spellName.text = spell.itemName;
+                spellIcon.sprite = spell.icon;
+            }
+            else
+            {
+                itemUI.gameObject.SetActive(false);
+            }
+            Debug.Log("Yes I have been there");
         }
     }
 
@@ -161,7 +220,11 @@ public class InventoryManager : MonoBehaviour
     public void CloseInventory()
     {
         ClearInventoryUI();
-        inventoryPanel.SetActive(false);
+        _inventoryPanel.SetActive(false);
     }
 
+    public bool isRemoveOn()
+    {
+        return EnableRemove.isOn;
+    }
 }

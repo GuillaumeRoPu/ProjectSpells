@@ -47,7 +47,7 @@ public class InventoryBrain : MonoBehaviour
                 }
                 Debug.Log("PickedUp");
             }
-            else
+            else if(UIManager.Instance.inUI && !InventoryManager.Instance.isRemoveOn())
             {
                 PointerEventData pointerData = new PointerEventData(eventSystem);
                 //OLD NEEDS TO MAKE A BETTER VERSION
