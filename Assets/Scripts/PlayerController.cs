@@ -1,5 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BobController : MonoBehaviour
 {
@@ -23,6 +25,11 @@ public class BobController : MonoBehaviour
     //Health Stuff
     [SerializeField] private float _maxHealth;
     [SerializeField, ProgressBar(nameof(_maxHealth), EColor.Red)] private float _health;
+
+    //Mouse Stuff
+    public Item _inHandItem { get; private set; }
+    [SerializeField] private GraphicRaycaster raycaster;
+    [SerializeField] private EventSystem eventSystem;
 
 
     private Vector3 _direction;
@@ -162,4 +169,15 @@ public class BobController : MonoBehaviour
         _health = Mathf.Clamp(_health, 0, _maxHealth);
         Debug.Log("Removed Health amount : " + value);
     }
+
+
+
+    // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE 
+
+    public void SetInHandItem(Item item)
+    {
+         _inHandItem = item;
+    }
+
+
 }

@@ -1,12 +1,36 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InventoryItemController : MonoBehaviour
 {
-    private Item item;
+    public enum UIState
+    {
+        Content,
+        PickedUp,
+        Slot,
+    }
+
+    public UIState currentState { get; private set; }
+
+    public Item item { get; private set; }
 
     [SerializeField] private Button button;
-    
+
+    private void Awake()
+    {
+        currentState = UIState.Content;
+    }
+
+    private void Update()
+    {
+        if (currentState == UIState.PickedUp)
+        {
+            //OLD NEEDS TO MAKE A BETTER VERSION
+            transform.position = Mouse.current.position.ReadValue();
+        }
+    }
+
     public void RemoveItem()
     {
         if (item is Spell)
@@ -25,9 +49,15 @@ public class InventoryItemController : MonoBehaviour
         item = newItem;
     }
 
-    public void UseItem() 
+    public void PickUp() 
     {
-        BobController.Instance.AddHealth(item.value);
-        RemoveItem();
+        Debug.Log("Picked Up From Inventory");
+        currentState = UIState.PickedUp;
+    }
+
+    public void PlaceDown(UIState state)
+    {
+        currentState = UIState.Slot;
+
     }
 }

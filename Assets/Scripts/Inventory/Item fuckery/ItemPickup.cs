@@ -23,10 +23,4 @@ public class ItemPickup : MonoBehaviour
         }
         Destroy(gameObject);
     }
-
-    private void OnMouseDown()
-    {
-        Debug.Log("PickedUp");
-        PickUp();
-    }
 }

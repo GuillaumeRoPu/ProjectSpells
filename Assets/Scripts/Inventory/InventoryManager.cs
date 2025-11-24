@@ -11,10 +11,10 @@ public class InventoryManager : MonoBehaviour
     [field : SerializeField] public List<Spell> spells { get; private set; } = new List<Spell>();
     [field : SerializeField] public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
 
-    [SerializeField] private Transform spellsContent;
+    [field : SerializeField] public Transform spellsContent { get; private set; }
     [SerializeField] private GameObject UISpell;
 
-    [SerializeField] private Transform modifiersContent;
+    [field: SerializeField] public Transform modifiersContent { get; private set; }
     [SerializeField] private GameObject UIModifier;
 
     [SerializeField] private Toggle EnableRemove;
