@@ -26,7 +26,6 @@ public class InventoryItemController : MonoBehaviour
     {
         if (currentState == UIState.PickedUp)
         {
-            //OLD NEEDS TO MAKE A BETTER VERSION
             transform.position = Mouse.current.position.ReadValue();
         }
     }
@@ -57,7 +56,6 @@ public class InventoryItemController : MonoBehaviour
 
     public void PlaceDown(UIState state)
     {
-        currentState = UIState.Slot;
-
+        currentState = state;
     }
 }

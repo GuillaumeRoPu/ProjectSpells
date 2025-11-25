@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InventoryBrain : MonoBehaviour
 {
+    public static InventoryBrain Instance;
+
     [SerializeField] private InputActionReference _leftClick;
     [SerializeField] private BobController _playerController;
     [SerializeField] private GameObject _pickedUpItemSlot;
@@ -14,6 +16,10 @@ public class InventoryBrain : MonoBehaviour
     [SerializeField] private GraphicRaycaster raycaster;
     [SerializeField] private EventSystem eventSystem;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -63,6 +69,7 @@ public class InventoryBrain : MonoBehaviour
                     {
                         item.PickUp();
                         item.transform.SetParent(_pickedUpItemSlot.transform);
+                        break;
                     }
                 }
 
@@ -77,12 +84,22 @@ public class InventoryBrain : MonoBehaviour
             InventoryItemController item = _pickedUpItemSlot.GetComponentInChildren<InventoryItemController>();
             if (UIManager.Instance.inUI && item != null)
             {
-                item.PlaceDown(InventoryItemController.UIState.Content);
-                if(item.item is Spell)
+                PointerEventData pointerData = new PointerEventData(eventSystem);
+                pointerData.position = Mouse.current.position.ReadValue();
+                List<RaycastResult> results = new List<RaycastResult>();
+                raycaster.Raycast(pointerData, results);
+                var state = new InventoryItemController.UIState();
+                state = InventoryItemController.UIState.Content;
+                foreach (RaycastResult result in results)
+                {
+                    
+                }
+                item.PlaceDown(state);
+                if (item.item is Spell)
                 {
                     item.transform.SetParent(InventoryManager.Instance.spellsContent);
                 }
-                else if(item.item is Modifier)
+                else if (item.item is Modifier)
                 {
                     item.transform.SetParent(InventoryManager.Instance.modifiersContent);
                 }

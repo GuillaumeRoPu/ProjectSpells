@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class InventoryManager : MonoBehaviour
     public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
     public List<Spell> equippedSpells { get; private set; } = new List<Spell>();
     [SerializeField] private int _spellCapacity;
+    public int SpellCapacity { get { return _spellCapacity; } }
     [SerializeField] private int _maximumSpellCapacity;
 
     [field: SerializeField] public Transform equippedSpellsContent { get; private set; }
@@ -25,8 +27,9 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private Toggle EnableRemove;
 
-    public InventoryItemController[] inventorySpells;
-    public InventoryItemController[] inventoryModifiers;
+
+    public List<InventoryItemController> inventorySpells = new List<InventoryItemController>();
+    public List<InventoryItemController> inventoryModifiers = new List<InventoryItemController>();
 
 
 
@@ -45,38 +48,72 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    [NaughtyAttributes.Button]
+    private void AddSpell()
+    {
+        Spell spell = new Spell();
+        Add(spell);
+    }
+
+    [NaughtyAttributes.Button]
+    private void AddModifier()
+    {
+        Modifier modifier = new Modifier();
+        Add(modifier);
+    }
+
+    [NaughtyAttributes.Button]
+    private void Updatedee()
+    {
+        UpdateListItems();
+    }
+
     public void Add(Modifier modifier)
     {
         modifiers.Add(modifier);
+        if (UIManager.Instance.inUI)
+        {
+            UpdateListItems();
+        }
     }
 
     public void Add(Spell spell)
     {
         spells.Add(spell);
+        if (UIManager.Instance.inUI)
+        {
+            UpdateListItems();
+        }
     }
 
     public void Remove(Spell spell)
     {
         spells.Remove(spell);
+        if (UIManager.Instance.inUI)
+        {
+            UpdateListItems();
+        }
     }
 
     public void Remove(Modifier modifier)
     {
         modifiers.Remove(modifier);
+        if (UIManager.Instance.inUI)
+        {
+            UpdateListItems();
+        }
     }
 
     public void EquipSpell(Spell spell, int position)
     {
         equippedSpells[position] = spell;
         Remove(spell);
-        ListItems();
     }
 
     public void UnEquipSpell(Spell spell, int position)
     {
         equippedSpells[position] = null;
         Add(spell);
-        ListItems();
     }
 
     public void ListItems()
@@ -85,9 +122,15 @@ public class InventoryManager : MonoBehaviour
         {
             ListSpells();
             ListModifiers();
-            SetInventoryItems();
             ListEquippedSpells();
         }
+    }
+
+    private void UpdateListItems()
+    {
+        ListSpells();
+        ListModifiers();
+        ListEquippedSpells();
     }
 
     private void ListEquippedSpells()
@@ -114,7 +157,6 @@ public class InventoryManager : MonoBehaviour
             {
                 itemUI.gameObject.SetActive(false);
             }
-            Debug.Log("Yes I have been there");
         }
     }
 
@@ -124,6 +166,9 @@ public class InventoryManager : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
+
+        inventorySpells.Clear();
+
         foreach (var spell in spells)
         {
             GameObject obj = Instantiate(UISpell, spellsContent);
@@ -131,6 +176,9 @@ public class InventoryManager : MonoBehaviour
             var spellName = obj.transform.Find("ItemName").GetComponent<Text>();
             var spellIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveItem").gameObject;
+
+            var a = obj.GetComponent<InventoryItemController>();
+            inventorySpells.Add(a);
 
             spellName.text = spell.itemName;
             spellIcon.sprite = spell.icon;
@@ -140,6 +188,11 @@ public class InventoryManager : MonoBehaviour
                 removeButton.SetActive(true);
             }
         }
+
+        for (int i = 0; i < spells.Count; i++)
+        {
+            inventorySpells[i].AddItem(spells[i]);
+        }
     }
 
     private void ListModifiers()
@@ -148,12 +201,18 @@ public class InventoryManager : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
+
+        inventoryModifiers.Clear();
+
         foreach (var modifier in modifiers)
         {
             GameObject obj = Instantiate(UIModifier, modifiersContent);
             var modifierName = obj.transform.Find("ItemName").GetComponent<Text>();
             var modifierIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveItem").gameObject;
+
+            var a = obj.GetComponent<InventoryItemController>();
+            inventoryModifiers.Add(a);
 
             modifierName.text = modifier.itemName;
             modifierIcon.sprite = modifier.icon;
@@ -162,6 +221,11 @@ public class InventoryManager : MonoBehaviour
             {
                 removeButton.SetActive(true);
             }
+        }
+
+        for (int i = 0; i < modifiers.Count; i++)
+        {
+            inventoryModifiers[i].AddItem(modifiers[i]);
         }
     }
 
@@ -191,21 +255,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void SetInventoryItems()
-    {
-        inventorySpells = spellsContent.GetComponentsInChildren<InventoryItemController>();
-        inventoryModifiers = modifiersContent.GetComponentsInChildren<InventoryItemController>();
-
-        for (int i = 0; i < spells.Count; i++)
-        {
-            inventorySpells[i].AddItem(spells[i]);
-        }
-        for (int i = 0; i < modifiers.Count; i++)
-        {
-            inventoryModifiers[i].AddItem(modifiers[i]);
-        }
-    }
-
 
     private void ClearInventoryUI()
     {
@@ -213,6 +262,9 @@ public class InventoryManager : MonoBehaviour
             Destroy(item.gameObject);
 
         foreach (Transform item in modifiersContent)
+            Destroy(item.gameObject);
+
+        foreach (Transform item in equippedSpellsContent)
             Destroy(item.gameObject);
     }
 
