@@ -57,5 +57,6 @@ public class InventoryItemController : MonoBehaviour
     public void PlaceDown(UIState state)
     {
         currentState = state;
+        Debug.Log(currentState);
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,7 +43,6 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < _spellCapacity; i++) 
         {
             equippedSpells.Add(null);
-            Debug.Log(i);
         }
     }
 
@@ -114,6 +112,7 @@ public class InventoryManager : MonoBehaviour
     {
         equippedSpells[position] = null;
         Add(spell);
+        Debug.Log("Unequiped Item At Slot number : " + position);
     }
 
     public void ListItems()
@@ -128,6 +127,7 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateListItems()
     {
+        Debug.Log("Updated");
         ListSpells();
         ListModifiers();
         ListEquippedSpells();
@@ -139,24 +139,46 @@ public class InventoryManager : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
+        int i = 0;
         foreach (var spell in equippedSpells)
         {
             GameObject obj = Instantiate(UIEquippedSlot, equippedSpellsContent);
-            var itemUI = obj.transform.Find("Item");
+            GameObject ItemInObj = Instantiate(UISpell, obj.transform);
             if (spell != null)
             {
-                itemUI.gameObject.SetActive(true);
-                itemUI.name = spell.itemName;
-                var spellName = itemUI.transform.Find("ItemName").GetComponent<Text>();
-                var spellIcon = itemUI.transform.Find("ItemIcon").GetComponent<Image>();
+                ItemInObj.gameObject.SetActive(true);
+                ItemInObj.name = spell.itemName;
+                ItemInObj.transform.position = obj.transform.position;
+                var spellName = ItemInObj.transform.Find("ItemName").GetComponent<Text>();
+                var spellIcon = ItemInObj.transform.Find("ItemIcon").GetComponent<Image>();
 
-                spellName.text = spell.itemName;
+                spellName.text = "";
                 spellIcon.sprite = spell.icon;
             }
             else
             {
-                itemUI.gameObject.SetActive(false);
+                ItemInObj.gameObject.SetActive(false);
             }
+
+            var equipSlot = obj.GetComponent<EquippedItemSlotController>();
+
+            if (equipSlot != null)
+            {
+                equipSlot.SetID(i);
+                if(equippedSpells[i] != null)
+                {
+                    equipSlot.EquipSpell(equippedSpells[i]);
+                }
+                else if(equipSlot.isSpellStored())
+                {
+                    equipSlot.UnequipSpell();
+                }
+            }
+            else
+            {
+                Debug.LogWarning("y'a un probleme");
+            }
+            i++;
         }
     }
 
@@ -172,20 +194,21 @@ public class InventoryManager : MonoBehaviour
         foreach (var spell in spells)
         {
             GameObject obj = Instantiate(UISpell, spellsContent);
-            obj.name = spell.itemName;
-            var spellName = obj.transform.Find("ItemName").GetComponent<Text>();
-            var spellIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
-            var removeButton = obj.transform.Find("RemoveItem").gameObject;
-
             var a = obj.GetComponent<InventoryItemController>();
-            inventorySpells.Add(a);
-
-            spellName.text = spell.itemName;
-            spellIcon.sprite = spell.icon;
-
-            if (EnableRemove.isOn)
+            if (a != null)
             {
-                removeButton.SetActive(true);
+                inventorySpells.Add(a);
+                obj.name = spell.itemName;
+                var spellName = obj.transform.Find("ItemName").GetComponent<Text>();
+                var spellIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
+                var removeButton = obj.transform.Find("RemoveItem").gameObject;
+
+                spellName.text = spell.itemName;
+                spellIcon.sprite = spell.icon;
+                if (EnableRemove.isOn)
+                {
+                    removeButton.SetActive(true);
+                }
             }
         }
 
