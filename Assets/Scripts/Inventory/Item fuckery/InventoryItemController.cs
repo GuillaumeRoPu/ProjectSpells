@@ -19,14 +19,14 @@ public class InventoryItemController : MonoBehaviour
 
     private void Awake()
     {
-        currentState = UIState.Content;
+        
     }
 
     private void Update()
     {
         if (currentState == UIState.PickedUp)
         {
-            transform.position = Mouse.current.position.ReadValue();
+            transform.position = Vector2.Lerp(new Vector2(transform.position.x, transform.position.y), Mouse.current.position.ReadValue(), 0.2f);
         }
     }
 
