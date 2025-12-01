@@ -37,7 +37,7 @@
                     "name": "ScrollUp",
                     "type": "Value",
                     "id": "4e4e397c-16a8-4f10-ba98-c64572fdbb65",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Integer",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -46,7 +46,7 @@
                     "name": "ScrollDown",
                     "type": "Value",
                     "id": "d9515ccd-340c-43bf-af68-3e6e18a7e039",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Integer",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

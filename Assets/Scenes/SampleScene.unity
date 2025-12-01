@@ -370,7 +370,6 @@ GameObject:
   - component: {fileID: 80459993}
   - component: {fileID: 80459992}
   - component: {fileID: 80459991}
-  - component: {fileID: 80459990}
   m_Layer: 5
   m_Name: HUDCanvas
   m_TagString: Untagged
@@ -398,23 +397,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &80459990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80459988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bfe8fad6a3495d47b54744266c91fc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryBrain
-  _leftClick: {fileID: -812573396657870116, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _playerController: {fileID: 1932031394}
-  _pickedUpItemSlot: {fileID: 0}
-  raycaster: {fileID: 80459991}
-  eventSystem: {fileID: 1554592999}
 --- !u!114 &80459991
 MonoBehaviour:
   m_ObjectHideFlags: 0
