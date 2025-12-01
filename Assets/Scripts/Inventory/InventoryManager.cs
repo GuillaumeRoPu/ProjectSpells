@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     [SerializeField] private GameObject _inventoryPanel;
-    [SerializeField] private GameObject _craftingPanel;
+    [SerializeField] private GameObject _inventoryCanvas;
 
     public List<Spell> spells { get; private set; } = new List<Spell>();
     public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
@@ -118,12 +118,9 @@ public class InventoryManager : MonoBehaviour
 
     public void ListItems()
     {
-        if (!_inventoryPanel.activeSelf)
-        {
-            ListSpells();
-            ListModifiers();
-            ListEquippedSpells();
-        }
+        ListSpells();
+        ListModifiers();
+        ListEquippedSpells();
     }
 
     private void UpdateListItems()
@@ -296,8 +293,7 @@ public class InventoryManager : MonoBehaviour
     public void CloseInventory()
     {
         ClearInventoryUI();
-        _inventoryPanel.SetActive(false);
-        _craftingPanel.SetActive(false);
+        _inventoryCanvas.SetActive(false);
     }
 
     public bool isRemoveOn()
