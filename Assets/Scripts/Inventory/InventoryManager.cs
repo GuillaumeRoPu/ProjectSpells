@@ -70,7 +70,7 @@ public class InventoryManager : MonoBehaviour
     public void Add(Modifier modifier)
     {
         modifiers.Add(modifier);
-        if (UIManager.Instance.inUI)
+        if (UIManager.Instance.inMenus)
         {
             UpdateListItems();
         }
@@ -79,7 +79,7 @@ public class InventoryManager : MonoBehaviour
     public void Add(Spell spell)
     {
         spells.Add(spell);
-        if (UIManager.Instance.inUI)
+        if (UIManager.Instance.inMenus)
         {
             UpdateListItems();
         }
@@ -88,7 +88,7 @@ public class InventoryManager : MonoBehaviour
     public void Remove(Spell spell)
     {
         spells.Remove(spell);
-        if (UIManager.Instance.inUI)
+        if (UIManager.Instance.inMenus)
         {
             UpdateListItems();
         }
@@ -97,7 +97,7 @@ public class InventoryManager : MonoBehaviour
     public void Remove(Modifier modifier)
     {
         modifiers.Remove(modifier);
-        if (UIManager.Instance.inUI)
+        if (UIManager.Instance.inMenus)
         {
             UpdateListItems();
         }

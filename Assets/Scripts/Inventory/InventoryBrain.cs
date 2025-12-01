@@ -37,7 +37,7 @@ public class InventoryBrain : MonoBehaviour
     {
         if (UIManager.Instance != null)
         {
-            if (!UIManager.Instance.inUI)
+            if (!UIManager.Instance.inMenus)
             {
                 RaycastHit hit;
                 Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -53,7 +53,7 @@ public class InventoryBrain : MonoBehaviour
                 }
                 Debug.Log("PickedUp");
             }
-            else if(UIManager.Instance.inUI && !InventoryManager.Instance.isRemoveOn())
+            else if(UIManager.Instance.inMenus && !InventoryManager.Instance.isRemoveOn())
             {
                 PointerEventData pointerData = new PointerEventData(eventSystem);
                 pointerData.position = Mouse.current.position.ReadValue();
@@ -90,10 +90,10 @@ public class InventoryBrain : MonoBehaviour
 
     private void ReleasedLeftClick(InputAction.CallbackContext obj)
     {
-        if (UIManager.Instance != null) 
+        if (UIManager.Instance != null && UIManager.Instance.inMenus) 
         {
             InventoryItemController item = _pickedUpItemSlot.GetComponentInChildren<InventoryItemController>();
-            if (UIManager.Instance.inUI && item != null)
+            if (item != null)
             {
                 PointerEventData pointerData = new PointerEventData(eventSystem);
                 pointerData.position = Mouse.current.position.ReadValue();

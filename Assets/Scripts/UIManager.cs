@@ -4,11 +4,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    public bool inUI { get; private set; }
+    public bool inMenus { get; private set; }
 
     public void UIstateChange(bool state) 
     { 
-        inUI = state;
+        inMenus = state;
     }
 
     public void Awake()
