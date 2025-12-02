@@ -37,23 +37,7 @@ public class InventoryBrain : MonoBehaviour
     {
         if (UIManager.Instance != null)
         {
-            if (!UIManager.Instance.inMenus)
-            {
-                RaycastHit hit;
-                Vector2 mousePos = Mouse.current.position.ReadValue();
-                Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
-
-                if (Physics.Raycast(rayOrigin, out hit))
-                {
-                    ItemPickup item = hit.transform.gameObject.GetComponent<ItemPickup>();
-                    if (item != null)
-                    {
-                        item.PickUp();
-                    }
-                }
-                Debug.Log("PickedUp");
-            }
-            else if(UIManager.Instance.inMenus && !InventoryManager.Instance.isRemoveOn())
+            if(UIManager.Instance.inMenus && !InventoryManager.Instance.isRemoveOn())
             {
                 PointerEventData pointerData = new PointerEventData(eventSystem);
                 pointerData.position = Mouse.current.position.ReadValue();
@@ -83,7 +67,6 @@ public class InventoryBrain : MonoBehaviour
                         //slot.UnequipSpell();
                     }
                 }
-
             }
         }
     }

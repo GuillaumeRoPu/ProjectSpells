@@ -11,12 +11,13 @@ public class InventoryManager : MonoBehaviour
 
     public List<Spell> spells { get; private set; } = new List<Spell>();
     public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
-    public List<Spell> equippedSpells { get; private set; } = new List<Spell>();
+    private List<Spell> _equippedSpells = new List<Spell>();
+    public List<Spell> EquippedSpells { get => _equippedSpells; }
     [SerializeField] private int _spellCapacity;
     public int SpellCapacity { get { return _spellCapacity; } }
     [SerializeField] private int _maximumSpellCapacity;
 
-    [field: SerializeField] public Transform equippedSpellsContent { get; private set; }
+    [field: SerializeField] public Transform _equippedSpellsContent { get; private set; }
     [SerializeField] private GameObject UIEquippedSlot;
 
     [field : SerializeField] public Transform spellsContent { get; private set; }
@@ -43,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         Mathf.Clamp(_spellCapacity, 1, _maximumSpellCapacity);
         for (int i = 0; i < _spellCapacity; i++) 
         {
-            equippedSpells.Add(null);
+            _equippedSpells.Add(null);
         }
     }
 
@@ -105,13 +106,13 @@ public class InventoryManager : MonoBehaviour
 
     public void EquipSpell(Spell spell, int position)
     {
-        equippedSpells[position] = spell;
+        _equippedSpells[position] = spell;
         Remove(spell);
     }
 
     public void UnEquipSpell(Spell spell, int position)
     {
-        equippedSpells[position] = null;
+        _equippedSpells[position] = null;
         Add(spell);
         Debug.Log("Unequiped Item At Slot number : " + position);
     }
@@ -133,14 +134,14 @@ public class InventoryManager : MonoBehaviour
 
     private void ListEquippedSpells()
     {
-        foreach (Transform item in equippedSpellsContent)
+        foreach (Transform item in _equippedSpellsContent)
         {
             Destroy(item.gameObject);
         }
         int i = 0;
-        foreach (var spell in equippedSpells)
+        foreach (var spell in _equippedSpells)
         {
-            GameObject obj = Instantiate(UIEquippedSlot, equippedSpellsContent);
+            GameObject obj = Instantiate(UIEquippedSlot, _equippedSpellsContent);
             GameObject ItemInObj = Instantiate(UISpell, obj.transform);
             if (spell != null)
             {
@@ -163,9 +164,9 @@ public class InventoryManager : MonoBehaviour
             if (equipSlot != null)
             {
                 equipSlot.SetID(i);
-                if(equippedSpells[i] != null)
+                if(_equippedSpells[i] != null)
                 {
-                    equipSlot.EquipSpell(equippedSpells[i]);
+                    equipSlot.EquipSpell(_equippedSpells[i]);
                 }
                 else if(equipSlot.isSpellStored())
                 {
@@ -285,7 +286,7 @@ public class InventoryManager : MonoBehaviour
         foreach (Transform item in modifiersContent)
             Destroy(item.gameObject);
 
-        foreach (Transform item in equippedSpellsContent)
+        foreach (Transform item in _equippedSpellsContent)
             Destroy(item.gameObject);
     }
 

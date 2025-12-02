@@ -6,6 +6,7 @@ public class Brain : MonoBehaviour
     [SerializeField] InputActionReference _moveInput;
     [SerializeField] InputActionReference _InputNext;
     [SerializeField] InputActionReference _InputPrior;
+    [SerializeField] InputActionReference _leftClickInput;
     [SerializeField] BobController _playerController;
 
     private void Start()
@@ -15,6 +16,7 @@ public class Brain : MonoBehaviour
         _moveInput.action.canceled += ActionOnCanceled;
         _InputNext.action.started += ScrolledUp;
         _InputPrior.action.started += ScrolledDown;
+        _leftClickInput.action.started += PressedLeftClick;
     }
 
     private void OnDestroy()
@@ -24,6 +26,7 @@ public class Brain : MonoBehaviour
         _moveInput.action.canceled -= ActionOnCanceled;
         _InputNext.action.started -= ScrolledUp;
         _InputPrior.action.started -= ScrolledDown;
+        _leftClickInput.action.started -= PressedLeftClick;
     }
 
     private void ActionOnPerformed(InputAction.CallbackContext obj)
@@ -47,11 +50,33 @@ public class Brain : MonoBehaviour
     private void ScrolledUp(InputAction.CallbackContext obj)
     {
         Debug.Log("Scrolled Up");
+        _playerController.ChangeSpellUp();
     }
 
     private void ScrolledDown(InputAction.CallbackContext obj)
     {
         Debug.Log("Scrolled Down");
+        _playerController.ChangeSpellDown();
+    }
+
+    private void PressedLeftClick(InputAction.CallbackContext obj)
+    {
+        if (!UIManager.Instance.inMenus)
+        {
+            RaycastHit hit;
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
+
+            if (Physics.Raycast(rayOrigin, out hit))
+            {
+                ItemPickup item = hit.transform.gameObject.GetComponent<ItemPickup>();
+                if (item != null)
+                {
+                    item.PickUp();
+                }
+            }
+            Debug.Log("PickedUp");
+        }
     }
 }
 

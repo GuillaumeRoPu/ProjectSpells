@@ -14,5 +14,6 @@ public class UIManager : MonoBehaviour
     public void Awake()
     {
         Instance = this;
+        inMenus = false;
     }
 }

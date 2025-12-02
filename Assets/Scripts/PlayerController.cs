@@ -1,4 +1,7 @@
 using NaughtyAttributes;
+using NUnit.Framework;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -26,10 +29,11 @@ public class BobController : MonoBehaviour
     [SerializeField] private float _maxHealth;
     [SerializeField, ProgressBar(nameof(_maxHealth), EColor.Red)] private float _health;
 
-    //Mouse Stuff
-    public Item _inHandItem { get; private set; }
-    [SerializeField] private GraphicRaycaster raycaster;
-    [SerializeField] private EventSystem eventSystem;
+    //Spells Stuff
+    private Spell _inHandSpell = null;
+    public Spell InHandSpell { get => _inHandSpell; }
+    private int _inHandSpellPosition = 0;
+    public int InHandSpellPosition { get => _inHandSpellPosition; }
 
 
     private Vector3 _direction;
@@ -172,12 +176,109 @@ public class BobController : MonoBehaviour
 
 
 
-    // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE // MOUSE 
+    // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS
 
-    public void SetInHandItem(Item item)
+    void EquipSpell(Spell spell, int positionInAllEquippedSpells)
     {
-         _inHandItem = item;
+        _inHandSpell = spell;
+        _inHandSpellPosition = positionInAllEquippedSpells;
     }
 
+    public void ChangeSpellUp()
+    {
+        List<Spell> EquippedSpells = InventoryManager.Instance.EquippedSpells;
+        int i = 0;
+        foreach(Spell spell in EquippedSpells)
+        {
+            if(_inHandSpell == spell)
+            {
+                bool foundSpell = false;
+                int j = i;
+                int start = j;
+                int bloqueur = 0;
+                while (!foundSpell)
+                {
+                    if(EquippedSpells[j] == null)
+                    {
+                        if (j + 1 < EquippedSpells.Count)
+                        {
+                            j++;
+                        }
+                        else
+                        {
+                            j = 0;
+                        }
+                    }
+                    else
+                    {
+                        EquipSpell(EquippedSpells[j], j);
+                        Debug.Log("Equipped Spell in Slot : " + j);
+                        foundSpell = true;
+                    }
+                    if (start == j)
+                    {
+                        Debug.Log("You dont have a spell");
+                        foundSpell = true;
+                    }
+                    if (bloqueur >= 10)
+                    {
+                        foundSpell = true;
+                        Debug.Log("Securite activee");
+                    }
+                    bloqueur++;
+                }
+                break;
+            }
+            i++;
+        }
+    }
 
+    public void ChangeSpellDown()
+    {
+        List<Spell> EquippedSpells = InventoryManager.Instance.EquippedSpells;
+        int i = 0;
+        foreach (Spell spell in EquippedSpells)
+        {
+            if (_inHandSpell == spell)
+            {
+                bool foundSpell = false;
+                int j = i;
+                int start = j;
+                int bloqueur = 0;
+                while (!foundSpell)
+                {
+                    if (EquippedSpells[j] == null)
+                    {
+                        if (j - 1 < 0)
+                        {
+                            j = EquippedSpells.Count - 1;
+                        }
+                        else
+                        {
+                            j--;
+                        }
+                    }
+                    else
+                    {
+                        EquipSpell(EquippedSpells[j], j);
+                        Debug.Log("Equipped Spell in Slot : " + j);
+                        foundSpell = true;
+                    }
+                    if (start == j)
+                    {
+                        Debug.Log("You dont have a spell");
+                        foundSpell = true;
+                    }
+                    if (bloqueur >= 10)
+                    {
+                        foundSpell = true;
+                        Debug.Log("Securite activee");
+                    }
+                    bloqueur++;
+                }
+                break;
+            }
+            i++;
+        }
+    }
 }
