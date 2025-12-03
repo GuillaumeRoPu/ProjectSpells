@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 
 public class Item
@@ -133,11 +134,14 @@ public class Spell : Item
     public int summoner;
     //HERE ADD ADDITIONAL DATAS TO HOLD IF NEEDED
 
+    public Vector3 BasePosition;
+    public Vector3 BaseDirection;
 
     //Here are ALL THE METHODS OF THIS CLASS
     public void CastSpell(Vector3 positon, Vector3 direction)
     {
-        return;
+        BasePosition = positon;
+        BaseDirection = direction;
     }
 
     public void AddToSlot(ModifierSlot slot, Spell spell)

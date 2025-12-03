@@ -1,9 +1,6 @@
 using NaughtyAttributes;
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BobController : MonoBehaviour
@@ -66,12 +63,19 @@ public class BobController : MonoBehaviour
 
     private void Start()
     {
-        
+        InventoryManager.Instance.EquippedSpell += UpdateInHandSpell;
+        InventoryManager.Instance.UnequippedSpell += UpdateInHandSpell;
     }
 
     private void Update()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+        InventoryManager.Instance.EquippedSpell -= UpdateInHandSpell;
+        InventoryManager.Instance.UnequippedSpell -= UpdateInHandSpell;
     }
 
     private void FixedUpdate()
@@ -187,98 +191,97 @@ public class BobController : MonoBehaviour
     public void ChangeSpellUp()
     {
         List<Spell> EquippedSpells = InventoryManager.Instance.EquippedSpells;
-        int i = 0;
-        foreach(Spell spell in EquippedSpells)
+        int i = _inHandSpellPosition;
+        bool foundSpell = false;
+        int start = i;
+        int bloqueur = 0;
+        if (i + 1 >= EquippedSpells.Count)
         {
-            if(_inHandSpell == spell)
-            {
-                bool foundSpell = false;
-                int j = i;
-                int start = j;
-                int bloqueur = 0;
-                while (!foundSpell)
-                {
-                    if(EquippedSpells[j] == null)
-                    {
-                        if (j + 1 < EquippedSpells.Count)
-                        {
-                            j++;
-                        }
-                        else
-                        {
-                            j = 0;
-                        }
-                    }
-                    else
-                    {
-                        EquipSpell(EquippedSpells[j], j);
-                        Debug.Log("Equipped Spell in Slot : " + j);
-                        foundSpell = true;
-                    }
-                    if (start == j)
-                    {
-                        Debug.Log("You dont have a spell");
-                        foundSpell = true;
-                    }
-                    if (bloqueur >= 10)
-                    {
-                        foundSpell = true;
-                        Debug.Log("Securite activee");
-                    }
-                    bloqueur++;
-                }
-                break;
-            }
+            i = 0;
+        }
+        else
+        {
             i++;
         }
+        while (!foundSpell)
+        {
+            if (EquippedSpells[i] == null)
+            {
+                if (i + 1 >= EquippedSpells.Count)
+                {
+                    i = 0;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            else
+            {
+                EquipSpell(EquippedSpells[i], i);
+                Debug.Log("Equipped Spell in Slot : " + i);
+                foundSpell = true;
+            }
+            if (bloqueur >= 10)
+            {
+                foundSpell = true;
+                Debug.Log("No Spell Found");
+            }
+            bloqueur++;
+        }
     }
+ 
 
     public void ChangeSpellDown()
     {
         List<Spell> EquippedSpells = InventoryManager.Instance.EquippedSpells;
-        int i = 0;
-        foreach (Spell spell in EquippedSpells)
+        int i = _inHandSpellPosition;
+        bool foundSpell = false;
+        int start = i;
+        int bloqueur = 0;
+        if (i - 1 < 0)
         {
-            if (_inHandSpell == spell)
-            {
-                bool foundSpell = false;
-                int j = i;
-                int start = j;
-                int bloqueur = 0;
-                while (!foundSpell)
-                {
-                    if (EquippedSpells[j] == null)
-                    {
-                        if (j - 1 < 0)
-                        {
-                            j = EquippedSpells.Count - 1;
-                        }
-                        else
-                        {
-                            j--;
-                        }
-                    }
-                    else
-                    {
-                        EquipSpell(EquippedSpells[j], j);
-                        Debug.Log("Equipped Spell in Slot : " + j);
-                        foundSpell = true;
-                    }
-                    if (start == j)
-                    {
-                        Debug.Log("You dont have a spell");
-                        foundSpell = true;
-                    }
-                    if (bloqueur >= 10)
-                    {
-                        foundSpell = true;
-                        Debug.Log("Securite activee");
-                    }
-                    bloqueur++;
-                }
-                break;
-            }
-            i++;
+            i = EquippedSpells.Count - 1;
         }
+        else
+        {
+            i--;
+        }
+        while (!foundSpell)
+        {
+            if (EquippedSpells[i] == null)
+            {
+                if (i - 1 < 0)
+                {
+                    i = EquippedSpells.Count - 1;
+                }
+                else
+                {
+                    i--;
+                }
+            }
+            else
+            {
+                EquipSpell(EquippedSpells[i], i);
+                Debug.Log("Equipped Spell in Slot : " + i);
+                foundSpell = true;
+            }
+            if (bloqueur >= 10)
+            {
+                foundSpell = true;
+                Debug.Log("No spell Found");
+            }
+            bloqueur++;
+        }
+    }
+
+    private void UpdateInHandSpell()
+    {
+        EquipSpell(InventoryManager.Instance.EquippedSpells[_inHandSpellPosition], _inHandSpellPosition);
+    }
+
+    private void CastInHandSpell()
+    {
+        _inHandSpell.CastSpell(transform.position, transform.forward);
     }
 }

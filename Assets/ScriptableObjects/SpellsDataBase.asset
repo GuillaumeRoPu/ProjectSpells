@@ -49,3 +49,38 @@ MonoBehaviour:
     pierceCount: 0
     phasesThroughWalls: 0
     summoner: 0
+  - label: Sword
+    id: 1
+    itemName: Sword
+    description: A sword ?
+    value: 10
+    icon: {fileID: 21300000, guid: 14bc0349f3132f54e9fbb23460074647, type: 3}
+    prefab: {fileID: 8175989164745767634, guid: 66cb2a317b694cb4bbc94a7afef76dc6, type: 3}
+    modifiersList:
+    - slotMode: 1
+      modType: 1
+      spellActMethod: 0
+    - slotMode: 1
+      modType: 0
+      spellActMethod: 0
+    - slotMode: 1
+      modType: 3
+      spellActMethod: 0
+    onEnabled:
+      m_PersistentCalls:
+        m_Calls: []
+    castedSpellPrefab: {fileID: 5315051136330612736, guid: 227dc9817c483304b9ed683c977dec9d, type: 3}
+    spellType: 0
+    damage: 20
+    direction: 0
+    lifeTime: 2
+    speed: 10
+    speedMultiplier: 1
+    speedAcceleration: 0
+    gravity: 0
+    gravityMultiplier: 1
+    bounces: 0
+    penetrationCount: 0
+    pierceCount: 0
+    phasesThroughWalls: 0
+    summoner: 0

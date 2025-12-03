@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject UIModifier;
 
     [SerializeField] private Toggle EnableRemove;
+
+    public Action EquippedSpell;
+    public Action UnequippedSpell;
 
 
     public List<InventoryItemController> inventorySpells = new List<InventoryItemController>();
@@ -108,12 +112,14 @@ public class InventoryManager : MonoBehaviour
     {
         _equippedSpells[position] = spell;
         Remove(spell);
+        EquippedSpell?.Invoke();
     }
 
     public void UnEquipSpell(Spell spell, int position)
     {
         _equippedSpells[position] = null;
         Add(spell);
+        UnequippedSpell?.Invoke();
         Debug.Log("Unequiped Item At Slot number : " + position);
     }
 
