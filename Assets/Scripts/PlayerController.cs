@@ -1,5 +1,7 @@
 using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +15,8 @@ public class BobController : MonoBehaviour
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Camera _camera;
     [SerializeField] private CameraController _cameraController;
+    [SerializeField] private GameObject _prefabSpellController;
+    [SerializeField] private Transform _parentCastedSpells;
 
     //Movement Stuff
     [SerializeField] private float _speedMove;
@@ -28,10 +32,12 @@ public class BobController : MonoBehaviour
 
     //Spells Stuff
     private Spell _inHandSpell = null;
+    private float _internalCooldown;
     public Spell InHandSpell { get => _inHandSpell; }
     private int _inHandSpellPosition = 0;
     public int InHandSpellPosition { get => _inHandSpellPosition; }
 
+    public Action ChangedHotBarSpell;
 
     private Vector3 _direction;
 
@@ -65,11 +71,13 @@ public class BobController : MonoBehaviour
     {
         InventoryManager.Instance.EquippedSpell += UpdateInHandSpell;
         InventoryManager.Instance.UnequippedSpell += UpdateInHandSpell;
+        _internalCooldown = 0;
+        _inHandSpell = null;
     }
 
     private void Update()
     {
-        
+        _internalCooldown -= Time.deltaTime;
     }
 
     private void OnDestroy()
@@ -190,6 +198,7 @@ public class BobController : MonoBehaviour
 
     public void ChangeSpellUp()
     {
+        ChangedHotBarSpell?.Invoke();
         List<Spell> EquippedSpells = InventoryManager.Instance.EquippedSpells;
         int i = _inHandSpellPosition;
         bool foundSpell = false;
@@ -234,6 +243,7 @@ public class BobController : MonoBehaviour
 
     public void ChangeSpellDown()
     {
+        ChangedHotBarSpell?.Invoke();
         List<Spell> EquippedSpells = InventoryManager.Instance.EquippedSpells;
         int i = _inHandSpellPosition;
         bool foundSpell = false;
@@ -280,8 +290,15 @@ public class BobController : MonoBehaviour
         EquipSpell(InventoryManager.Instance.EquippedSpells[_inHandSpellPosition], _inHandSpellPosition);
     }
 
-    private void CastInHandSpell()
+    public void CastInHandSpell()
     {
-        _inHandSpell.CastSpell(transform.position, transform.forward);
+        if (_internalCooldown <= 0 && _inHandSpell != null)
+        {
+            Debug.Log("Pourquoi tu l'as fais");
+            Instantiate(_prefabSpellController, _parentCastedSpells);
+            var casSpeCont = _prefabSpellController.GetComponent<CastedSpellController>();
+            casSpeCont.InitiateSpell(_inHandSpell);
+            _internalCooldown = _inHandSpell.cooldown;
+        }
     }
 }

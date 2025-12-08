@@ -1321,6 +1321,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442887685}
   m_CullTransparentMesh: 1
+--- !u!1 &502400340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 502400341}
+  m_Layer: 0
+  m_Name: Casted Spells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &502400341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502400340}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 928811508}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &598730031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,6 +1943,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &928811508 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+  m_PrefabInstance: {fileID: 6543438610091456531}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &994400714
 GameObject:
   m_ObjectHideFlags: 0
@@ -3884,6 +3921,8 @@ MonoBehaviour:
   _rb: {fileID: 1932031396}
   _camera: {fileID: 330585545}
   _cameraController: {fileID: 3043044}
+  _prefabSpellController: {fileID: 4615506446158817882, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+  _parentCastedSpells: {fileID: 502400341}
   _speedMove: 10
   _acceleration: 10
   _decceleration: 10
@@ -3906,6 +3945,7 @@ MonoBehaviour:
   _InputNext: {fileID: -220218794287381634, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
   _InputPrior: {fileID: 6161729670230548743, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
   _leftClickInput: {fileID: -812573396657870116, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  _UseInput: {fileID: 5750484199695377926, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
   _playerController: {fileID: 1932031394}
 --- !u!54 &1932031396
 Rigidbody:
@@ -4361,6 +4401,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 227dc9817c483304b9ed683c977dec9d, type: 3}
+--- !u!1001 &6543438610091456531
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 502400341}
+    m_Modifications:
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 613627893251500402, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4615506446158817882, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
+      propertyPath: m_Name
+      value: Spell Controller
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
 --- !u!1001 &6955155894169687131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4566,3 +4663,4 @@ SceneRoots:
   - {fileID: 1554593000}
   - {fileID: 1874857529}
   - {fileID: 5329628032413947582}
+  - {fileID: 502400341}

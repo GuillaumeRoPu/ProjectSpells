@@ -7,6 +7,7 @@ public class Brain : MonoBehaviour
     [SerializeField] InputActionReference _InputNext;
     [SerializeField] InputActionReference _InputPrior;
     [SerializeField] InputActionReference _leftClickInput;
+    [SerializeField] InputActionReference _UseInput;
     [SerializeField] BobController _playerController;
 
     private void Start()
@@ -17,6 +18,7 @@ public class Brain : MonoBehaviour
         _InputNext.action.started += ScrolledUp;
         _InputPrior.action.started += ScrolledDown;
         _leftClickInput.action.started += PressedLeftClick;
+        _UseInput.action.started += PressedE;
     }
 
     private void OnDestroy()
@@ -27,6 +29,7 @@ public class Brain : MonoBehaviour
         _InputNext.action.started -= ScrolledUp;
         _InputPrior.action.started -= ScrolledDown;
         _leftClickInput.action.started -= PressedLeftClick;
+        _UseInput.action.started -= PressedE;
     }
 
     private void ActionOnPerformed(InputAction.CallbackContext obj)
@@ -59,7 +62,7 @@ public class Brain : MonoBehaviour
         _playerController.ChangeSpellDown();
     }
 
-    private void PressedLeftClick(InputAction.CallbackContext obj)
+    private void PressedE(InputAction.CallbackContext obj)
     {
         if (!UIManager.Instance.inMenus)
         {
@@ -76,6 +79,15 @@ public class Brain : MonoBehaviour
                 }
             }
             Debug.Log("PickedUp");
+        }
+    }
+
+    private void PressedLeftClick(InputAction.CallbackContext obj)
+    {
+        if (!UIManager.Instance.inMenus)
+        {
+            _playerController.CastInHandSpell();
+            Debug.Log("PressedLeftClick");
         }
     }
 }

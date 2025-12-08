@@ -115,6 +115,7 @@ public class Spell : Item
     [Space(10)]
     public SpellType spellType;
     public float damage;
+    public float cooldown;
     public SpellDirection direction;
     public float lifeTime;
     public float speed;
