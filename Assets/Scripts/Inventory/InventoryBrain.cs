@@ -9,7 +9,7 @@ public class InventoryBrain : MonoBehaviour
     public static InventoryBrain Instance;
 
     [SerializeField] private InputActionReference _leftClick;
-    [SerializeField] private BobController _playerController;
+    [SerializeField] private PlayerController _playerController;
     [SerializeField] private GameObject _pickedUpItemSlot;
 
 

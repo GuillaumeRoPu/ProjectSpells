@@ -1,4 +1,5 @@
 using UnityEngine;
+using NaughtyAttributes;
 
 public class ItemController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class ItemController : MonoBehaviour
     public Modifier ModifierData { get { return _modifierData; } }
     private Spell _spellData;
     public Spell SpellData { get { return _spellData; } }
-    [SerializeField] public int _index;
+    [SerializeField, HideIf(nameof(random))] private int _index;
     [SerializeField] private bool random = false;
 
 

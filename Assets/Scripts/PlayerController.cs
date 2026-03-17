@@ -1,13 +1,12 @@
 using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BobController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
-    public static BobController Instance;
+    public static PlayerController Instance;
 
     //Reference Stuff
     [SerializeField] private Brain _brain;
@@ -18,17 +17,34 @@ public class BobController : MonoBehaviour
     [SerializeField] private GameObject _prefabSpellController;
     [SerializeField] private Transform _parentCastedSpells;
 
+    [Space(5)]
+
     //Movement Stuff
-    [SerializeField] private float _speedMove;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _sprintSpeed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _decceleration;
     [SerializeField] private float _velocityPower;
     private float _slippingMeter = 1;
     private float _speedMult = 1;
+    private bool _isSprinting = false;
+    private bool _isGrounded = false;
+    private float _airTimer;
+    [SerializeField] private float _coyoteTime;
+    [SerializeField] private int _maxJumps;
+    [SerializeField] private float _jumpStrenth;
+    [SerializeField] private float _airJumpStrength;
+    private int _jumpsLeft;
+
+    [Space(5)]
 
     //Health Stuff
     [SerializeField] private float _maxHealth;
     [SerializeField, ProgressBar(nameof(_maxHealth), EColor.Red)] private float _health;
+    public float MaxHealth { get { return _maxHealth; }}
+    public float CurrentHealth { get { return _health; } }
+
+    [Space(5)]
 
     //Spells Stuff
     private Spell _inHandSpell = null;
@@ -48,12 +64,10 @@ public class BobController : MonoBehaviour
         _speedMult = 1f;
     }
 
-
-    [Button]
-    private void IcyPlatform()
+    private void TranslateGroundValues((float slip, float speedMult) theBestTuple)
     {
-        _slippingMeter = 0.2f;
-        _speedMult = 1.5f;
+        _slippingMeter = theBestTuple.slip;
+        _speedMult = theBestTuple.speedMult;
     }
 
 
@@ -91,7 +105,6 @@ public class BobController : MonoBehaviour
         CheckPlatform();
         Move();
         CameraAdjustement();
-        //_transform.Translate(_direction * Time.deltaTime * 10f);
     }
 
     private void Move()
@@ -103,7 +116,12 @@ public class BobController : MonoBehaviour
         right.y = 0;
         right.Normalize();
         Vector3 updatedDirection = (right * _direction.x + forward * _direction.z).normalized;
-        Vector3 targetSpeed = updatedDirection * _speedMove * _speedMult;
+        float speed = _speed;
+        if (_isSprinting)
+        {
+            speed = _sprintSpeed;
+        }
+        Vector3 targetSpeed = updatedDirection * speed * _speedMult;
         Vector3 speedDif = targetSpeed - _rb.linearVelocity * _slippingMeter;
         float accelRate = (Mathf.Abs(targetSpeed.x) > 0.01f || Mathf.Abs(targetSpeed.z) > 0.01f) ? _acceleration * _slippingMeter : _decceleration * _slippingMeter;
         Vector3 movement = new Vector3(Mathf.Pow(Mathf.Abs(speedDif.x) * accelRate, _velocityPower) * Mathf.Sign(speedDif.x), 0, Mathf.Pow(Mathf.Abs(speedDif.z) * accelRate, _velocityPower) * Mathf.Sign(speedDif.z));
@@ -113,7 +131,7 @@ public class BobController : MonoBehaviour
         //{
         //    transform.position += (Vector3)platformVelocity * Time.fixedDeltaTime;
         //}
-        _cameraController.ChangeFOV(_rb.linearVelocity.magnitude / (_speedMove * _speedMult));
+        _cameraController.ChangeFOV(_rb.linearVelocity.magnitude / (speed * _speedMult));
     }
 
     private void CameraAdjustement()
@@ -128,18 +146,59 @@ public class BobController : MonoBehaviour
         }
     }
 
+    public void Jump()
+    {
+        if (_jumpsLeft > 0)
+        {
+            _jumpsLeft -= 1;
+            if (_isGrounded)
+            {
+                _isGrounded = false;
+            }
+            else {
+                _isGrounded = false;
+
+            }
+        }
+    }
+
     private void CheckPlatform()
     {
-        RaycastHit[] hit = Physics.RaycastAll(_transform.position, -_transform.up, 10.0f);
+        RaycastHit[] hit = Physics.RaycastAll(_transform.position, -_transform.up, 0.5f);
+        bool foundGround = false;
         foreach (RaycastHit i in hit)
         {
-            if (i.collider.CompareTag("Ice"))
+            if (i.collider.CompareTag("Ground"))
             {
-                IcyPlatform();
+                if (_airTimer > 0.05f)
+                {
+                    foundGround = true;
+                }
+                GroundValues ground = i.collider.GetComponent<GroundValues>();
+                if (ground != null)
+                {
+                    TranslateGroundValues(ground.GiveValues());
+                }
+                else
+                {
+                    NormalPlatform();
+                }
             }
-            else if (i.collider.CompareTag("Ground"))
+        }
+
+        if (foundGround)
+        {
+            _isGrounded = true;
+            _airTimer = 0;
+            _jumpsLeft = _maxJumps;
+        }
+        else
+        {
+            _airTimer += Time.deltaTime;
+            if (_airTimer > _coyoteTime && _isGrounded == true)
             {
-                NormalPlatform();
+                _isGrounded = false;
+                _jumpsLeft -= 1;
             }
         }
     }
@@ -159,7 +218,7 @@ public class BobController : MonoBehaviour
     [Button]
     private void Remove20Health()
     {
-        RemoveHealth(20);
+        Damage(20);
     }
 
     public void AddHealth(float value)
@@ -174,18 +233,26 @@ public class BobController : MonoBehaviour
         Debug.Log("Added Health amount : " + value);
     }
 
-    public void RemoveHealth(float value)
+    public void Damage(float damageAmount)
     {
-        if (value < 0)
+        if (damageAmount < 0)
         {
             Debug.LogWarning("WHY IS THE NUMBER UNDER 0");
             return;
         }
-        _health -= value;
+        _health -= damageAmount;
         _health = Mathf.Clamp(_health, 0, _maxHealth);
-        Debug.Log("Removed Health amount : " + value);
+        Debug.Log("Removed Health amount : " + damageAmount);
+        if (_health <= 0)
+        {
+            Die();
+        }
     }
 
+    public void Die()
+    {
+        throw new NotImplementedException();
+    }
 
 
     // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS // SPELLS

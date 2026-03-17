@@ -3,22 +3,28 @@ using UnityEngine.InputSystem;
 
 public class Brain : MonoBehaviour
 {
+    [SerializeField] private Camera _camera;
+
     [SerializeField] InputActionReference _moveInput;
-    [SerializeField] InputActionReference _InputNext;
-    [SerializeField] InputActionReference _InputPrior;
+    [SerializeField] InputActionReference _inputNext;
+    [SerializeField] InputActionReference _inputPrior;
     [SerializeField] InputActionReference _leftClickInput;
-    [SerializeField] InputActionReference _UseInput;
-    [SerializeField] BobController _playerController;
+    [SerializeField] InputActionReference _useInput;
+    [SerializeField] InputActionReference _sprintAction;
+    [SerializeField] InputActionReference _jumpAction;
+    [SerializeField] PlayerController _playerController;
 
     private void Start()
     {
         _moveInput.action.started += ActionOnStarted;
         _moveInput.action.performed += ActionOnPerformed;
         _moveInput.action.canceled += ActionOnCanceled;
-        _InputNext.action.started += ScrolledUp;
-        _InputPrior.action.started += ScrolledDown;
+        _inputNext.action.started += ScrolledUp;
+        _inputPrior.action.started += ScrolledDown;
         _leftClickInput.action.started += PressedLeftClick;
-        _UseInput.action.started += PressedE;
+        _useInput.action.started += PressedE;
+        _jumpAction.action.performed += HoldJump;
+        _sprintAction.action.performed += HoldSprint;
     }
 
     private void OnDestroy()
@@ -26,10 +32,12 @@ public class Brain : MonoBehaviour
         _moveInput.action.started -= ActionOnStarted;
         _moveInput.action.performed -= ActionOnPerformed;
         _moveInput.action.canceled -= ActionOnCanceled;
-        _InputNext.action.started -= ScrolledUp;
-        _InputPrior.action.started -= ScrolledDown;
+        _inputNext.action.started -= ScrolledUp;
+        _inputPrior.action.started -= ScrolledDown;
         _leftClickInput.action.started -= PressedLeftClick;
-        _UseInput.action.started -= PressedE;
+        _useInput.action.started -= PressedE;
+        _jumpAction.action.performed -= HoldJump;
+        _sprintAction.action.performed -= HoldSprint;
     }
 
     private void ActionOnPerformed(InputAction.CallbackContext obj)
@@ -89,6 +97,20 @@ public class Brain : MonoBehaviour
             _playerController.CastInHandSpell();
             Debug.Log("PressedLeftClick");
         }
+    }
+
+    private void HoldJump(InputAction.CallbackContext obj)
+    {
+        if (!GameManager.GM.State.HasFlag(GameManager.GameState.UI))
+        {
+            _playerController.CastInHandSpell();
+            Debug.Log("PressedLeftClick");
+        }
+    }
+
+    private void HoldSprint(InputAction.CallbackContext obj)
+    {
+        
     }
 }
 
