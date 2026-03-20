@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        _state = GameState.Gameplay;
+        ChangeState(GameState.Gameplay);
     }
 
     public void OpenMenus()

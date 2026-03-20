@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private CinemachineCamera _camera;
+    [SerializeField] private Camera _camera;
     [SerializeField] private float _baseFOV = 40.0f;
     [SerializeField] private float _maxFOV = 80.0f;
     [SerializeField] private float _lerpTime = 0.25f;
@@ -13,14 +13,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        TryGetComponent(out _camera);
         _timer = 0;
         _targetFOV = _baseFOV;
     }
 
     private void Update()
     {
-        _camera.Lens.FieldOfView = Mathf.Lerp(_camera.Lens.FieldOfView, _targetFOV, Time.deltaTime * smoothSpeed);
+        _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _targetFOV, Time.deltaTime * smoothSpeed);
     }
 
     public void ChangeFOV(float FOV)

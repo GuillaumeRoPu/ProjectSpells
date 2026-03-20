@@ -23,8 +23,10 @@ public class Brain : MonoBehaviour
         _inputPrior.action.started += ScrolledDown;
         _leftClickInput.action.started += PressedLeftClick;
         _useInput.action.started += PressedE;
-        _jumpAction.action.performed += HoldJump;
-        _sprintAction.action.performed += HoldSprint;
+        _jumpAction.action.started += PressedJump;
+        _jumpAction.action.canceled += ReleasedJump;
+        _sprintAction.action.started += PressedSprint;
+        _sprintAction.action.canceled += ReleasedSprint;
     }
 
     private void OnDestroy()
@@ -36,8 +38,10 @@ public class Brain : MonoBehaviour
         _inputPrior.action.started -= ScrolledDown;
         _leftClickInput.action.started -= PressedLeftClick;
         _useInput.action.started -= PressedE;
-        _jumpAction.action.performed -= HoldJump;
-        _sprintAction.action.performed -= HoldSprint;
+        _jumpAction.action.started -= PressedJump;
+        _jumpAction.action.canceled -= ReleasedJump;
+        _sprintAction.action.started -= PressedSprint;
+        _sprintAction.action.canceled -= ReleasedSprint;
     }
 
     private void ActionOnPerformed(InputAction.CallbackContext obj)
@@ -76,6 +80,7 @@ public class Brain : MonoBehaviour
         {
             RaycastHit hit;
             Vector2 mousePos = Mouse.current.position.ReadValue();
+            //Vector2 mousePos = new Vector2(Screen.width / 2, Screen.height / 2);
             Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
 
             if (Physics.Raycast(rayOrigin, out hit))
@@ -99,18 +104,32 @@ public class Brain : MonoBehaviour
         }
     }
 
-    private void HoldJump(InputAction.CallbackContext obj)
+    private void PressedJump(InputAction.CallbackContext obj)
     {
         if (!GameManager.GM.State.HasFlag(GameManager.GameState.UI))
         {
-            _playerController.CastInHandSpell();
-            Debug.Log("PressedLeftClick");
+            _playerController.Jump();
+            Debug.Log("Pressed Jump");
         }
     }
 
-    private void HoldSprint(InputAction.CallbackContext obj)
+    private void ReleasedJump(InputAction.CallbackContext obj)
     {
-        
+        if (!GameManager.GM.State.HasFlag(GameManager.GameState.UI))
+        {
+            //_playerController.Jump();
+            Debug.Log("Released Jump");
+        }
+    }
+
+    private void PressedSprint(InputAction.CallbackContext obj)
+    {
+        bool sprinting = obj.started || obj.performed;
+    }
+
+    private void ReleasedSprint(InputAction.CallbackContext obj)
+    {
+        bool sprinting = obj.started || obj.performed;
     }
 }
 

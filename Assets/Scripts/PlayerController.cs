@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private float _jumpStrenth;
     [SerializeField] private float _airJumpStrength;
     private int _jumpsLeft;
+    private bool _hasJumped;
 
     [Space(5)]
 
@@ -150,6 +151,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (_jumpsLeft > 0)
         {
+            _hasJumped = true;
             _jumpsLeft -= 1;
             if (_isGrounded)
             {
@@ -191,6 +193,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             _isGrounded = true;
             _airTimer = 0;
             _jumpsLeft = _maxJumps;
+            _hasJumped = false;
         }
         else
         {

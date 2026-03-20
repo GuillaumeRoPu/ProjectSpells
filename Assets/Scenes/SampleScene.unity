@@ -128,11 +128,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3043038}
-  - component: {fileID: 3043039}
+  - component: {fileID: 3043045}
   - component: {fileID: 3043042}
   - component: {fileID: 3043041}
   - component: {fileID: 3043043}
-  - component: {fileID: 3043044}
   m_Layer: 0
   m_Name: Cinemachine
   m_TagString: Untagged
@@ -155,49 +154,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3043039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3043037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
-  Priority:
-    Enabled: 0
-    m_Value: 0
-  OutputChannel: 1
-  StandbyUpdate: 2
-  m_StreamingVersion: 20241001
-  m_LegacyPriority: 0
-  Target:
-    TrackingTarget: {fileID: 1932031393}
-    LookAtTarget: {fileID: 0}
-    CustomLookAtTarget: 0
-  Lens:
-    FieldOfView: 40
-    OrthographicSize: 10
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
-    Dutch: 0
-    ModeOverride: 0
-    PhysicalProperties:
-      GateFit: 2
-      SensorSize: {x: 21.946, y: 16.002}
-      LensShift: {x: 0, y: 0}
-      FocusDistance: 10
-      Iso: 200
-      ShutterSpeed: 0.005
-      Aperture: 16
-      BladeCount: 5
-      Curvature: {x: 2, y: 11}
-      BarrelClipping: 0.25
-      Anamorphism: 0
-  BlendHint: 0
 --- !u!114 &3043041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +298,7 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
---- !u!114 &3043044
+--- !u!114 &3043045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -351,13 +307,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 3043037}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a2454e3117245046b2cd01dc253e96e, type: 3}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  _baseFOV: 40
-  _maxFOV: 60
-  _lerpTime: 1
-  smoothSpeed: 5
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 1932031393}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 10
+    NearClipPlane: 0.1
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &39918346
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +643,7 @@ GameObject:
   - component: {fileID: 291018158}
   - component: {fileID: 291018157}
   - component: {fileID: 291018156}
+  - component: {fileID: 291018160}
   m_Layer: 0
   m_Name: Normal Platform
   m_TagString: Ground
@@ -760,6 +744,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &291018160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291018155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014f280854139ac49931bc5cfcd4b0bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundValues
+  _slippingMeter: 1
+  _speedMult: 1
 --- !u!1 &314230105
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,6 +945,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
   - component: {fileID: 330585551}
+  - component: {fileID: 330585552}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1120,6 +1119,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &330585552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2454e3117245046b2cd01dc253e96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  _camera: {fileID: 330585545}
+  _baseFOV: 40
+  _maxFOV: 60
+  _lerpTime: 1
+  smoothSpeed: 5
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -4055,11 +4071,11 @@ MonoBehaviour:
   _transform: {fileID: 1932031393}
   _rb: {fileID: 1932031396}
   _camera: {fileID: 330585545}
-  _cameraController: {fileID: 3043044}
+  _cameraController: {fileID: 330585552}
   _prefabSpellController: {fileID: 4615506446158817882, guid: 5420a18ce1adf534ca33a9b2933078b5, type: 3}
   _parentCastedSpells: {fileID: 502400341}
-  _speed: 0
-  _sprintSpeed: 0
+  _speed: 15
+  _sprintSpeed: 20
   _acceleration: 10
   _decceleration: 10
   _velocityPower: 0.9
@@ -4081,14 +4097,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e604350566b8664dae48f1a8bdd845b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Brain
-  _camera: {fileID: 0}
+  _camera: {fileID: 330585545}
   _moveInput: {fileID: -1225596150523976443, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _inputNext: {fileID: 0}
-  _inputPrior: {fileID: 0}
+  _inputNext: {fileID: -220218794287381634, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  _inputPrior: {fileID: 6161729670230548743, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
   _leftClickInput: {fileID: -812573396657870116, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _useInput: {fileID: 0}
-  _sprintAction: {fileID: 0}
-  _jumpAction: {fileID: 0}
+  _useInput: {fileID: 5750484199695377926, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  _sprintAction: {fileID: 602656293694832496, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  _jumpAction: {fileID: 2841009301412295169, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
   _playerController: {fileID: 1932031394}
 --- !u!54 &1932031396
 Rigidbody:
@@ -4796,12 +4812,12 @@ SceneRoots:
   m_Roots:
   - {fileID: 598730032}
   - {fileID: 330585546}
+  - {fileID: 3043038}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 291018159}
   - {fileID: 994400718}
   - {fileID: 1932031393}
-  - {fileID: 3043038}
   - {fileID: 854045355}
   - {fileID: 1554593000}
   - {fileID: 1874857529}
