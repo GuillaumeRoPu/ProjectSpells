@@ -147,8 +147,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3043037}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.027272725, y: 0.053498846, z: 0.0014616987, w: 0.99819434}
-  m_LocalPosition: {x: 0, y: 2, z: -8}
+  m_LocalRotation: {x: -0.027272725, y: 0.053498838, z: 0.0014616982, w: 0.99819434}
+  m_LocalPosition: {x: -0.845045, y: 2, z: -7.7751093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -644,7 +644,7 @@ GameObject:
   - component: {fileID: 291018157}
   - component: {fileID: 291018156}
   - component: {fileID: 291018160}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Normal Platform
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1020,8 +1020,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.027272727, y: 0.05349884, z: 0.0014616987, w: 0.99819434}
-  m_LocalPosition: {x: 0, y: 2, z: -8}
+  m_LocalRotation: {x: -0.027272727, y: 0.053498834, z: 0.0014616984, w: 0.99819434}
+  m_LocalPosition: {x: -0.845045, y: 2, z: -7.7751093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2093,7 +2093,7 @@ GameObject:
   - component: {fileID: 994400716}
   - component: {fileID: 994400715}
   - component: {fileID: 994400719}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ice platform
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -4048,7 +4048,7 @@ Transform:
   m_GameObject: {fileID: 1932031389}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: -0.845045, y: 2, z: 0.22489049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4079,10 +4079,16 @@ MonoBehaviour:
   _acceleration: 10
   _decceleration: 10
   _velocityPower: 0.9
-  _coyoteTime: 0
-  _maxJumps: 0
-  _jumpStrenth: 0
-  _airJumpStrength: 0
+  _coyoteTime: 0.2
+  _maxJumps: 2
+  _jumpStrength: 20
+  _airJumpStrength: 10
+  _raycastPos: {x: 0, y: -0.71, z: 0}
+  _raycastLength: 0.36
+  _groundLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  _pressedJump: 0
   _maxHealth: 100
   _health: 60
 --- !u!114 &1932031395

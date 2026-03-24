@@ -32,9 +32,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float _airTimer;
     [SerializeField] private float _coyoteTime;
     [SerializeField] private int _maxJumps;
-    [SerializeField] private float _jumpStrenth;
+    [SerializeField] private float _jumpStrength;
     [SerializeField] private float _airJumpStrength;
+    [SerializeField] private Vector3 _raycastPos;
+    [SerializeField] private float _raycastLength;
+    [SerializeField] private LayerMask _groundLayers;
+    [SerializeField] private bool _pressedJump;
     private int _jumpsLeft;
+    private bool _isJumping;
     private bool _hasJumped;
 
     [Space(5)]
@@ -104,7 +109,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void FixedUpdate()
     {
         CheckPlatform();
+        Jump();
         Move();
+        GravityChanges();
         CameraAdjustement();
     }
 
@@ -147,32 +154,46 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
-    public void Jump()
+    private void Jump()
     {
-        if (_jumpsLeft > 0)
+        if (_isGrounded && _isJumping && _jumpsLeft > 0 && !_hasJumped)
         {
+            Debug.Log("Jumped");
             _hasJumped = true;
-            _jumpsLeft -= 1;
-            if (_isGrounded)
-            {
-                _isGrounded = false;
-            }
-            else {
-                _isGrounded = false;
-
-            }
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.y);
+            _rb.AddForce(new Vector3(0, _jumpStrength, 0), ForceMode.Impulse);
         }
+        else if (_jumpsLeft > 0 && !_isGrounded && _pressedJump)
+        {
+            Debug.Log("Air jumped");
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.y);
+            _rb.AddForce(new Vector3(0, _airJumpStrength, 0), ForceMode.Impulse);
+            _jumpsLeft--;
+        }
+        _pressedJump = false;
+    }
+
+    public void ReleasedJump()
+    {
+        _isJumping = false;
+    }
+
+    public void PressedJump()
+    {
+        Debug.Log("Pressed Jump");
+        _isJumping = true;
+        _pressedJump = true;
     }
 
     private void CheckPlatform()
     {
-        RaycastHit[] hit = Physics.RaycastAll(_transform.position, -_transform.up, 0.5f);
+        RaycastHit[] hit = Physics.RaycastAll(_transform.position + _raycastPos, -_transform.up, _raycastLength, _groundLayers);
         bool foundGround = false;
         foreach (RaycastHit i in hit)
         {
             if (i.collider.CompareTag("Ground"))
             {
-                if (_airTimer > 0.05f)
+                if (!_hasJumped || _rb.linearVelocity.y <= 0.01f)
                 {
                     foundGround = true;
                 }
@@ -194,11 +215,12 @@ public class PlayerController : MonoBehaviour, IDamageable
             _airTimer = 0;
             _jumpsLeft = _maxJumps;
             _hasJumped = false;
+            Debug.Log("Found Ground " + _jumpsLeft);
         }
         else
         {
             _airTimer += Time.deltaTime;
-            if (_airTimer > _coyoteTime && _isGrounded == true)
+            if ((_airTimer > _coyoteTime && _isGrounded == true) || (_isGrounded && _hasJumped))
             {
                 _isGrounded = false;
                 _jumpsLeft -= 1;
@@ -206,8 +228,15 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
+    public void ActivateSprint(bool isSprinting)
+    {
+        _isSprinting = isSprinting;
+    }
 
+    private void GravityChanges()
+    {
 
+    }
 
 
     // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH // HEALTH
@@ -367,8 +396,14 @@ public class PlayerController : MonoBehaviour, IDamageable
             Debug.Log("Pourquoi tu l'as fais");
             Instantiate(_prefabSpellController, _parentCastedSpells);
             var casSpeCont = _prefabSpellController.GetComponent<CastedSpellController>();
-            casSpeCont.InitiateSpell(_inHandSpell);
+            //casSpeCont.InitiateSpell(_inHandSpell);
             _internalCooldown = _inHandSpell.cooldown;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(_transform.position + _raycastPos, _transform.position + _raycastPos - new Vector3(_transform.up.x, _transform.up.y * _raycastLength, _transform.up.z));
     }
 }
