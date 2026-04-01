@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,7 @@ public class Brain : MonoBehaviour
     [SerializeField] InputActionReference _useInput;
     [SerializeField] InputActionReference _sprintAction;
     [SerializeField] InputActionReference _jumpAction;
+    [SerializeField] InputActionReference _openMenusAction;
     [SerializeField] PlayerController _playerController;
 
     private void Start()
@@ -27,6 +29,7 @@ public class Brain : MonoBehaviour
         _jumpAction.action.canceled += ReleasedJump;
         _sprintAction.action.started += StartedSprint;
         _sprintAction.action.canceled += ReleasedSprint;
+        _openMenusAction.action.started += OpenCloseMenus;
     }
 
     private void OnDestroy()
@@ -42,6 +45,7 @@ public class Brain : MonoBehaviour
         _jumpAction.action.canceled -= ReleasedJump;
         _sprintAction.action.started -= StartedSprint;
         _sprintAction.action.canceled -= ReleasedSprint;
+        _openMenusAction.action.started -= OpenCloseMenus;
     }
 
     private void ActionOnPerformed(InputAction.CallbackContext obj)
@@ -128,6 +132,18 @@ public class Brain : MonoBehaviour
     private void ReleasedSprint(InputAction.CallbackContext obj)
     {
         _playerController.ActivateSprint(false);
+    }
+
+    private void OpenCloseMenus(InputAction.CallbackContext obj)
+    {
+        if (GameManager.GM.State == GameManager.GameState.UI)
+        {
+            GameManager.GM.ChangeState(GameManager.GameState.Gameplay);
+        }
+        else if (GameManager.GM.State == GameManager.GameState.Gameplay)
+        {
+            GameManager.GM.ChangeState(GameManager.GameState.UI);
+        }
     }
 }
 

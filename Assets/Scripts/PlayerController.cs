@@ -21,23 +21,25 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     //Movement Stuff
     [SerializeField] private float _speed;
-    [SerializeField] private float _sprintSpeed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _decceleration;
     [SerializeField] private float _velocityPower;
+    [SerializeField] private bool _canUseSprint;
+    [SerializeField, ShowIf(nameof(_canUseSprint))] private float _sprintSpeed;
     private float _slippingMeter = 1;
     private float _speedMult = 1;
     private bool _isSprinting = false;
     private bool _isGrounded = false;
     private float _airTimer;
-    [SerializeField] private float _coyoteTime;
-    [SerializeField] private int _maxJumps;
-    [SerializeField] private float _jumpStrength;
-    [SerializeField] private float _airJumpStrength;
-    [SerializeField] private Vector3 _raycastPos;
-    [SerializeField] private float _raycastLength;
-    [SerializeField] private LayerMask _groundLayers;
-    [SerializeField] private bool _pressedJump;
+    [SerializeField] private bool _canUseJump;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private float _coyoteTime;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private int _maxJumps;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private float _jumpStrength;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private float _airJumpStrength;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private Vector3 _raycastPos;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private float _raycastLength;
+    [SerializeField, ShowIf(nameof(_canUseJump))] private LayerMask _groundLayers;
+    private bool _pressedJump;
     private int _jumpsLeft;
     private bool _isJumping;
     private bool _hasJumped;
@@ -62,25 +64,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Action ChangedHotBarSpell;
 
     private Vector3 _direction;
-
-    [Button]
-    private void NormalPlatform()
-    {
-        _slippingMeter = 1f;
-        _speedMult = 1f;
-    }
-
-    private void TranslateGroundValues((float slip, float speedMult) theBestTuple)
-    {
-        _slippingMeter = theBestTuple.slip;
-        _speedMult = theBestTuple.speedMult;
-    }
-
-
-    public void OnMove(Vector3 direction)
-    {
-        _direction = direction.normalized;
-    }
 
     private void Awake()
     {
@@ -115,6 +98,31 @@ public class PlayerController : MonoBehaviour, IDamageable
         CameraAdjustement();
     }
 
+    [Button]
+    private void NormalPlatform()
+    {
+        _slippingMeter = 1f;
+        _speedMult = 1f;
+    }
+
+    private void AirControl()
+    {
+        _slippingMeter = 2f;
+        _speedMult = 1f;
+    }
+
+    private void TranslateGroundValues((float slip, float speedMult) theBestTuple)
+    {
+        _slippingMeter = theBestTuple.slip;
+        _speedMult = theBestTuple.speedMult;
+    }
+
+
+    public void OnMove(Vector3 direction)
+    {
+        _direction = direction.normalized;
+    }
+
     private void Move()
     {
         var forward = _camera.transform.forward;
@@ -125,7 +133,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         right.Normalize();
         Vector3 updatedDirection = (right * _direction.x + forward * _direction.z).normalized;
         float speed = _speed;
-        if (_isSprinting)
+        if (_isSprinting && _canUseSprint)
         {
             speed = _sprintSpeed;
         }
@@ -156,17 +164,22 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Jump()
     {
+        if (!_canUseSprint)
+        {
+            return;
+        }
+
         if (_isGrounded && _isJumping && _jumpsLeft > 0 && !_hasJumped)
         {
             Debug.Log("Jumped");
             _hasJumped = true;
-            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.y);
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
             _rb.AddForce(new Vector3(0, _jumpStrength, 0), ForceMode.Impulse);
         }
         else if (_jumpsLeft > 0 && !_isGrounded && _pressedJump)
         {
             Debug.Log("Air jumped");
-            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.y);
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
             _rb.AddForce(new Vector3(0, _airJumpStrength, 0), ForceMode.Impulse);
             _jumpsLeft--;
         }
@@ -191,21 +204,18 @@ public class PlayerController : MonoBehaviour, IDamageable
         bool foundGround = false;
         foreach (RaycastHit i in hit)
         {
-            if (i.collider.CompareTag("Ground"))
+            if (!_hasJumped || _rb.linearVelocity.y <= 0.01f)
             {
-                if (!_hasJumped || _rb.linearVelocity.y <= 0.01f)
-                {
-                    foundGround = true;
-                }
-                GroundValues ground = i.collider.GetComponent<GroundValues>();
-                if (ground != null)
-                {
-                    TranslateGroundValues(ground.GiveValues());
-                }
-                else
-                {
-                    NormalPlatform();
-                }
+                foundGround = true;
+            }
+            GroundValues ground = i.collider.GetComponent<GroundValues>();
+            if (ground != null)
+            {
+                TranslateGroundValues(ground.GiveValues());
+            }
+            else
+            {
+                NormalPlatform();
             }
         }
 
@@ -219,6 +229,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
         else
         {
+            AirControl();
             _airTimer += Time.deltaTime;
             if ((_airTimer > _coyoteTime && _isGrounded == true) || (_isGrounded && _hasJumped))
             {

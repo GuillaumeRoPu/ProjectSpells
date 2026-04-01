@@ -19,6 +19,14 @@ public class GameManager : MonoBehaviour
     public void ChangeState(GameState state)
     {
         _state = state;
+        if (state == GameState.Gameplay)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if (state == GameState.UI)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
 
     private void Awake()
