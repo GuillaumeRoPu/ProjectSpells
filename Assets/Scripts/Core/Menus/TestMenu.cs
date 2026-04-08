@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Core
 {
@@ -10,21 +11,26 @@ namespace Core
 
 #if UNITY_EDITOR
 
+            [SerializeField] InputActionReference _F;
+            [SerializeField] InputActionReference _G;
+            [SerializeField] InputActionReference _H;
+            [SerializeField] InputActionReference _J;
+
             private void Update()
             {
-                if (Input.GetKeyUp(KeyCode.F))
+                if (_F.action.triggered)
                 {
                     _pageController.TurnPageOn(PageType.Loading);
                 }
-                if (Input.GetKeyUp(KeyCode.G))
+                if (_G.action.triggered)
                 {
                     _pageController.TurnPageOff(PageType.Loading);
                 }
-                if (Input.GetKeyUp(KeyCode.H))
+                if (_H.action.triggered)
                 {
                     _pageController.TurnPageOff(PageType.Loading, PageType.Menu);
                 }
-                if (Input.GetKeyUp(KeyCode.J))
+                if (_J.action.triggered)
                 {
                     _pageController.TurnPageOff(PageType.Loading, PageType.Menu, true);
                 }

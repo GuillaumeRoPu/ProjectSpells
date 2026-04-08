@@ -269,8 +269,6 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: 1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -282,8 +280,6 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: -1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -295,8 +291,6 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: 5082991133974614888, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: -1
-        LegacyInput: 
-        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -3098,17 +3092,17 @@ MonoBehaviour:
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ActionsAsset: {fileID: 0}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: -1225596150523976443, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
+  m_LeftClickAction: {fileID: -812573396657870116, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: -8103053983537446470, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
@@ -3897,7 +3891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfe8fad6a3495d47b54744266c91fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryBrain
-  _leftClick: {fileID: -812573396657870116, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  _leftClick: {fileID: -9066888835323221125, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   _playerController: {fileID: 1932031394}
   _pickedUpItemSlot: {fileID: 242796154}
   raycaster: {fileID: 1735720833}
@@ -4097,7 +4091,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 272
   _maxHealth: 100
-  _health: 60
+  _health: 100
 --- !u!114 &1932031395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4111,14 +4105,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Brain
   _camera: {fileID: 330585545}
-  _moveInput: {fileID: -1225596150523976443, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _inputNext: {fileID: -220218794287381634, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _inputPrior: {fileID: 6161729670230548743, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _leftClickInput: {fileID: -812573396657870116, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _useInput: {fileID: 5750484199695377926, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _sprintAction: {fileID: 602656293694832496, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _jumpAction: {fileID: 2841009301412295169, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
-  _openMenusAction: {fileID: -4751073611150234842, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  _moveInput: {fileID: -4741699554037180428, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _inputNext: {fileID: -7100491333052393456, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _inputPrior: {fileID: 1259966569330181513, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _leftClickInput: {fileID: -9066888835323221125, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _useInput: {fileID: -5105033343117443419, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _sprintAction: {fileID: 3110229523756505965, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _jumpAction: {fileID: -7617232866325948617, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _openMenusAction: {fileID: 2296450237385036499, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   _playerController: {fileID: 1932031394}
 --- !u!54 &1932031396
 Rigidbody:
@@ -4159,7 +4153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: a713e12436cf4da449b9421f57ceac3a, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -4174,7 +4168,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Gameplay
+  m_DefaultActionMap: PlayerInputs
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1001 &2026355731
@@ -4825,6 +4819,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 598730032}
+  - {fileID: 1554593000}
   - {fileID: 330585546}
   - {fileID: 3043038}
   - {fileID: 410087041}
@@ -4833,7 +4828,6 @@ SceneRoots:
   - {fileID: 994400718}
   - {fileID: 1932031393}
   - {fileID: 854045355}
-  - {fileID: 1554593000}
   - {fileID: 1874857529}
   - {fileID: 5329628032413947582}
   - {fileID: 502400341}
