@@ -12,17 +12,23 @@ namespace Core
             public static readonly string FLAG_OFF = "Off";
             public static readonly string FLAG_NONE = "None";
 
-            private PageType _type;
+            [SerializeField] private PageType _type;
             public PageType Type { get { return _type; } set { _type = value; } }
-            private bool _useAnimation;
+
+            [SerializeField] private bool _startOn = true;
+            public bool StartOn { get { return _startOn; } set { _startOn = value; } }
+
+            [SerializeField] private bool _debug;
+            public bool MyDebug { get { return _debug; } set { _debug = value; } }
+                
+            [SerializeField] private bool _useAnimation;
             public bool UseAnimation { get { return _useAnimation; } set { _useAnimation = value; } }
+
             private string _targetState;
             public string TargetState { get { return _targetState; } }
 
             private Animator _Animator;
 
-            private bool _debug;
-            public bool MyDebug { get { return _debug; } set { _debug = value; } }
 
             #region Unity Functions
 
@@ -83,11 +89,11 @@ namespace Core
                 }
             }
 
-            private void CheckAnimatiorIntergrity()
+            public void CheckAnimatiorIntergrity()
             {
-                if (_useAnimation)
+                if (_useAnimation && !_Animator)
                 {
-                    _Animator = GetComponent<Animator>();
+                    TryGetComponent(out _Animator);
                     if (!_Animator)
                     {
                         LogWarning("You tried to animate a page [" + _type + "], but there isn't any Animator component on this object !!!");

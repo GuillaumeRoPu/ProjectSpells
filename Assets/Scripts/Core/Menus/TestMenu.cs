@@ -7,7 +7,7 @@ namespace Core
     {
         public class TestMenu : MonoBehaviour
         {
-            private PageController _pageController;
+            [SerializeField] private PageController _pageController;
 
 #if UNITY_EDITOR
 

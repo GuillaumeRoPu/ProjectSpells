@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Core
@@ -10,13 +11,13 @@ namespace Core
         {
             public static PageController Instance;
 
-            private bool _debug;
+            [SerializeField] private bool _debug;
             public bool MyDebug { get { return _debug; } set { _debug = value; } }
 
-            private PageType _entryPage;
+            [SerializeField] private PageType _entryPage;
             public PageType EntryPage { get { return _entryPage; } set { _entryPage = value; } }
 
-            private List<Page> _pages;
+            [SerializeField] private List<Page> _pages;
             //public List<Page> Pages { get { return _entryPage; } set { _entryPage = value; } }
 
             private Hashtable m_Pages;
@@ -34,6 +35,18 @@ namespace Core
                     if (_entryPage != PageType.None)
                     {
                         TurnPageOn(_entryPage);
+                    }
+
+                    foreach(Page page in _pages)
+                    {
+                        if (page.StartOn)
+                        {
+                            TurnPageOn(page.Type);
+                        }
+                        else if (page.Type != _entryPage)
+                        {
+                            page.gameObject.SetActive(false);
+                        }
                     }
                 }
             }
@@ -69,7 +82,7 @@ namespace Core
 
                 if (!PageExists(off))
                 {
-                    LogWarning("You have decided to turn a page [" + off + "] that has not been registered !!!");
+                    LogWarning("You have decided to turn a page off [" + off + "] that has not been registered !!!");
                     return;
                 }
 
@@ -77,6 +90,11 @@ namespace Core
                 if (offPage.gameObject.activeSelf)
                 {
                     offPage.Animate(false);
+                }
+
+                if (on == PageType.None)
+                {
+                    return;
                 }
 
                 Page onPage = GetPage(on);
@@ -121,6 +139,7 @@ namespace Core
                 }
 
                 m_Pages.Add(page.Type, page);
+                page.CheckAnimatiorIntergrity();
                 Log("Successfully registered new page [" + page.Type + "]");
             }
 
