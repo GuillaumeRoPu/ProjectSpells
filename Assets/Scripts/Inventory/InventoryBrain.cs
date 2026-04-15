@@ -1,3 +1,4 @@
+using Core.Menu;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -37,7 +38,7 @@ public class InventoryBrain : MonoBehaviour
     {
         if (UIManager.Instance != null)
         {
-            if(UIManager.Instance.inMenus && !InventoryManager.Instance.isRemoveOn())
+            if (GameManager.GM.State == GameManager.GameState.UI && !InventoryManager.Instance.isRemoveOn())
             {
                 PointerEventData pointerData = new PointerEventData(eventSystem);
                 pointerData.position = Mouse.current.position.ReadValue();
@@ -73,7 +74,7 @@ public class InventoryBrain : MonoBehaviour
 
     private void ReleasedLeftClick(InputAction.CallbackContext obj)
     {
-        if (UIManager.Instance != null && UIManager.Instance.inMenus) 
+        if (UIManager.Instance != null && GameManager.GM.State == GameManager.GameState.UI) 
         {
             InventoryItemController item = _pickedUpItemSlot.GetComponentInChildren<InventoryItemController>();
             if (item != null)
@@ -115,5 +116,10 @@ public class InventoryBrain : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OpenInventory()
+    {
+        PageController.Instance.TurnPageOn(PageType.Inventory);
     }
 }

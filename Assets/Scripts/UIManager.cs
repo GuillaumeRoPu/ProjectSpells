@@ -1,3 +1,4 @@
+using Core.Menu;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,16 +9,6 @@ public class UIManager : MonoBehaviour
 
     public bool inMenus { get; private set; }
 
-    private HashSet<GameMenu> _allMenus;
-
-    public void UIstateChange(bool state) 
-    { 
-        inMenus = state;
-        if (!inMenus)
-        {
-            CloseMenus();
-        }
-    }
 
     public void Awake()
     {
@@ -28,18 +19,18 @@ public class UIManager : MonoBehaviour
         inMenus = false;
     }
 
-    public void OpenMenus()
+    public void OpenMenu(PageType type)
     {
-
+        PageController.Instance.TurnPageOn(type);
     }
 
-    public void CloseMenus()
+    public void CloseAllMenus()
     {
-
+        PageController.Instance.TurnAllPagesOff();
     }
 
-    public void AddMenu(GameMenu menu)
+    public void CloseMenu(PageType type)
     {
-        _allMenus.Add(menu);
+        PageController.Instance.TurnPageOff(type);
     }
 }

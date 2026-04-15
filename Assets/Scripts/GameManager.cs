@@ -1,3 +1,4 @@
+using Core.Menu;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
         _state = state;
         if (state == GameState.Gameplay)
         {
+            CloseAllMenus();
+            OpenMenu(PageType.HUD);
             Cursor.lockState = CursorLockMode.Locked;
         }
         else if (state == GameState.UI)
@@ -35,12 +38,25 @@ public class GameManager : MonoBehaviour
             gameManager = this;
         else
             Destroy(gameObject);
+    }
 
+    private void Start()
+    {
         ChangeState(GameState.Gameplay);
     }
 
-    public void OpenMenus()
+    public void OpenMenu(PageType type)
     {
-        UIManager.Instance.OpenMenus();
+        UIManager.Instance.OpenMenu(type);
+    }
+
+    public void CloseMenu(PageType type)
+    {
+        UIManager.Instance.CloseMenu(type);
+    }
+
+    public void CloseAllMenus()
+    {
+        UIManager.Instance.CloseAllMenus();
     }
 }

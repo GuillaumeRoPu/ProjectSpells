@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             {
                 TranslateGroundValues(ground.GiveValues());
             }
-            else
+            else if (_coyoteTime < _airTimer)
             {
                 NormalPlatform();
             }

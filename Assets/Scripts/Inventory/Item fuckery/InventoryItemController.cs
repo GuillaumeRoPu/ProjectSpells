@@ -17,11 +17,6 @@ public class InventoryItemController : MonoBehaviour
 
     [SerializeField] private Button button;
 
-    private void Awake()
-    {
-        
-    }
-
     private void Update()
     {
         if (currentState == UIState.PickedUp)

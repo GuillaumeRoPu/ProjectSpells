@@ -1,9 +1,11 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Brain : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
+    [SerializeField] private CinemachineInputAxisController _axisController;
 
     [SerializeField] InputActionReference _moveInput;
     [SerializeField] InputActionReference _inputNext;
@@ -84,7 +86,6 @@ public class Brain : MonoBehaviour
         {
             RaycastHit hit;
             Vector2 mousePos = Mouse.current.position.ReadValue();
-            //Vector2 mousePos = new Vector2(Screen.width / 2, Screen.height / 2);
             Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
 
             if (Physics.Raycast(rayOrigin, out hit))
@@ -125,12 +126,18 @@ public class Brain : MonoBehaviour
 
     private void StartedSprint(InputAction.CallbackContext obj)
     {
-        _playerController.ActivateSprint(true);
+        if (!GameManager.GM.State.HasFlag(GameManager.GameState.UI))
+        {
+            _playerController.ActivateSprint(true);
+        }
     }
 
     private void ReleasedSprint(InputAction.CallbackContext obj)
     {
-        _playerController.ActivateSprint(false);
+        if (!GameManager.GM.State.HasFlag(GameManager.GameState.UI))
+        {
+            _playerController.ActivateSprint(false);
+        }
     }
 
     private void OpenCloseMenus(InputAction.CallbackContext obj)
@@ -138,10 +145,13 @@ public class Brain : MonoBehaviour
         if (GameManager.GM.State == GameManager.GameState.UI)
         {
             GameManager.GM.ChangeState(GameManager.GameState.Gameplay);
+            _axisController.enabled = true;
         }
         else if (GameManager.GM.State == GameManager.GameState.Gameplay)
         {
             GameManager.GM.ChangeState(GameManager.GameState.UI);
+            GameManager.GM.OpenMenu(Core.Menu.PageType.ButtonsMenu);
+            _axisController.enabled = false;
         }
     }
 }

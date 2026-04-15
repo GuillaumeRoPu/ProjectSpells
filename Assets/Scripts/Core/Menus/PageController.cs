@@ -73,7 +73,7 @@ namespace Core
                 page.Animate(true);
             }
 
-            public void TurnPageOff(PageType off, PageType on = PageType.None, bool waitForExit = false)
+            public void TurnPageOff(PageType off, PageType on = PageType.None, bool waitForExit = false, bool animate = true)
             {
                 if (off == PageType.None)
                 {
@@ -89,7 +89,7 @@ namespace Core
                 Page offPage = GetPage(off);
                 if (offPage.gameObject.activeSelf)
                 {
-                    offPage.Animate(false);
+                    offPage.Animate(false, animate);
                 }
 
                 if (on == PageType.None)
@@ -109,6 +109,17 @@ namespace Core
                 }
             }
 
+            public void TurnAllPagesOff()
+            {
+                foreach(Page page in m_Pages.Values)
+                {
+                    if (page.gameObject.activeSelf)
+                    {
+                        TurnPageOff(page.Type, PageType.None, false, false);
+                    }
+                }
+            }
+
             #endregion
 
             #region Private Functions
@@ -125,7 +136,7 @@ namespace Core
 
             private void RegisterAllPages()
             {
-                foreach(Page page in _pages)
+                foreach (Page page in _pages)
                 {
                     RegisterPage(page);
                 }

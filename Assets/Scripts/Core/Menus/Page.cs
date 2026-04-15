@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core
@@ -29,21 +29,25 @@ namespace Core
 
             private Animator _Animator;
 
+            public Action TurnedPageOn;
+            public Action TurningPageOff;
+
 
             #region Unity Functions
 
             private void OnEnable()
             {
                 CheckAnimatiorIntergrity();
+                TurnedPageOn?.Invoke();
             }
 
             #endregion
 
             #region Public Functions
 
-            public void Animate(bool on)
+            public void Animate(bool on, bool animate = true)
             {
-                if (_useAnimation)
+                if (_useAnimation && animate)
                 {
                     _Animator.SetBool("on", on);
 
@@ -54,6 +58,7 @@ namespace Core
                 {
                     if (!on)
                     {
+                        TurningPageOff?.Invoke();
                         gameObject.SetActive(false);
                     }
                 }
@@ -66,6 +71,11 @@ namespace Core
             private IEnumerator AwaitAnimation(bool on)
             {
                 _targetState = on ? FLAG_ON : FLAG_OFF;
+
+                if (!on)
+                {
+                    TurningPageOff?.Invoke();
+                }
 
                 // wait for the animator to reach the target state
                 while (!_Animator.GetCurrentAnimatorStateInfo(0).IsName(TargetState))

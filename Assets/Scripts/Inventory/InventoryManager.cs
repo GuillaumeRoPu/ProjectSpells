@@ -8,7 +8,6 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     [SerializeField] private GameObject _inventoryPanel;
-    [SerializeField] private GameObject _inventoryCanvas;
 
     public List<Spell> spells { get; private set; } = new List<Spell>();
     public List<Modifier> modifiers { get; private set; } = new List<Modifier>();
@@ -75,7 +74,7 @@ public class InventoryManager : MonoBehaviour
     public void Add(Modifier modifier)
     {
         modifiers.Add(modifier);
-        if (UIManager.Instance.inMenus)
+        if (GameManager.GM.State == GameManager.GameState.UI)
         {
             UpdateListItems();
         }
@@ -84,7 +83,7 @@ public class InventoryManager : MonoBehaviour
     public void Add(Spell spell)
     {
         spells.Add(spell);
-        if (UIManager.Instance.inMenus)
+        if (GameManager.GM.State == GameManager.GameState.UI)
         {
             UpdateListItems();
         }
@@ -93,7 +92,7 @@ public class InventoryManager : MonoBehaviour
     public void Remove(Spell spell)
     {
         spells.Remove(spell);
-        if (UIManager.Instance.inMenus)
+        if (GameManager.GM.State == GameManager.GameState.UI)
         {
             UpdateListItems();
         }
@@ -102,7 +101,7 @@ public class InventoryManager : MonoBehaviour
     public void Remove(Modifier modifier)
     {
         modifiers.Remove(modifier);
-        if (UIManager.Instance.inMenus)
+        if (GameManager.GM.State == GameManager.GameState.UI)
         {
             UpdateListItems();
         }
@@ -125,6 +124,7 @@ public class InventoryManager : MonoBehaviour
 
     public void ListItems()
     {
+        ClearInventoryUI();
         ListSpells();
         ListModifiers();
         ListEquippedSpells();
@@ -133,9 +133,7 @@ public class InventoryManager : MonoBehaviour
     private void UpdateListItems()
     {
         Debug.Log("Updated");
-        ListSpells();
-        ListModifiers();
-        ListEquippedSpells();
+        ListItems();
     }
 
     private void ListEquippedSpells()
@@ -300,7 +298,15 @@ public class InventoryManager : MonoBehaviour
     public void CloseInventory()
     {
         ClearInventoryUI();
-        _inventoryCanvas.SetActive(false);
+        GameManager.GM.OpenMenu(Core.Menu.PageType.ButtonsMenu);
+        GameManager.GM.CloseMenu(Core.Menu.PageType.Inventory);
+    }
+
+    public void OpenInventory()
+    {
+        ClearInventoryUI();
+        GameManager.GM.CloseMenu(Core.Menu.PageType.ButtonsMenu);
+        GameManager.GM.OpenMenu(Core.Menu.PageType.Inventory);
     }
 
     public bool isRemoveOn()

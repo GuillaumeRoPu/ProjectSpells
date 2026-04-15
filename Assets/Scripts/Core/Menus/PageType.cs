@@ -9,6 +9,8 @@ namespace Core
             Inventory,
             SpellCreation,
             Menu,
+            ButtonsMenu,
+            HUD,
         }
     }
 }
