@@ -47,9 +47,7 @@ namespace Core
 
             private void Start()
             {
-                _currentCameraSettings = ScriptableObject.CreateInstance<CameraSettings>();
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+
             }
 
             private void OnDestroy()
@@ -97,7 +95,15 @@ namespace Core
                 _currentRotation = Vector3.SmoothDamp(_currentRotation, nextRotation, ref _smoothVelocity, _smoothTime);
                 transform.localEulerAngles = _currentRotation;
 
-                transform.position = _targetObject.transform.position - transform.forward * _distanceFromTarget;
+                if (_isTargetAnObject)
+                {
+                    transform.position = _targetObject.transform.position - transform.forward * _distanceFromTarget;
+                }
+                else
+                {
+                    transform.position = _targetPosition - transform.forward * _distanceFromTarget;
+
+                }
             }
 
             public void ChangeTarget(Vector3 target)
@@ -147,7 +153,7 @@ namespace Core
             {
                 Vector3 cameraPosition = new Vector3();
                 Vector3 lookAtPosition = new Vector3();
-                CameraSettings usedCamSettings = new CameraSettings();
+                CameraSettings usedCamSettings = ScriptableObject.CreateInstance<CameraSettings>();
                 Gizmos.color = Color.yellow;
                 if (_isTargetAnObject && _targetObject != null && _currentCameraSettings != null)
                 {

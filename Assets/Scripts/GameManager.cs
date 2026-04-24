@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         {
             CloseAllMenus();
             OpenMenu(PageType.HUD);
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
         else if (state == GameState.UI)
         {

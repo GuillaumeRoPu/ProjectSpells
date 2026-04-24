@@ -1,5 +1,4 @@
 using Core.Player;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -79,22 +78,26 @@ public class BasicBrain : MonoBehaviour
 
     private void PressedE(InputAction.CallbackContext obj)
     {
-        if (!GameManager.GM.State.HasFlag(GameManager.GameState.UI))
-        {
-            RaycastHit hit;
-            Vector2 mousePos = Mouse.current.position.ReadValue();
-            Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Ray rayOrigin = Camera.main.ScreenPointToRay(mousePos);
 
-            if (Physics.Raycast(rayOrigin, out hit))
+        if (Physics.Raycast(rayOrigin, out hit))
+        {
+
+            if (hit.collider.TryGetComponent<IInteractable>(out var interactable))
             {
-                ItemPickup item = hit.transform.gameObject.GetComponent<ItemPickup>();
-                if (item != null)
-                {
-                    item.PickUp();
-                }
+                Debug.Log("Found Something");
+                interactable.OnInteract();
             }
-            Debug.Log("PickedUp");
+
+            ItemPickup item = hit.transform.gameObject.GetComponent<ItemPickup>();
+            if (item != null)
+            {
+                item.PickUp();
+            }
         }
+        Debug.Log("PickedUp");
     }
 
     private void PressedLeftClick(InputAction.CallbackContext obj)

@@ -118,12 +118,11 @@ namespace Core
 
             private void CameraAdjustement()
             {
-                
                 Vector3 newForward = _rb.linearVelocity;
                 newForward.y = 0;
                 newForward.Normalize();
 
-                if (newForward != Vector3.zero)
+                if (newForward.sqrMagnitude > 0.1f)
                 {
                     _transform.forward = newForward;
                 }
