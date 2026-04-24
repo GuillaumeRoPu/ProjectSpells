@@ -10,7 +10,7 @@ namespace Core
         {
 
             //Reference Stuff
-            [SerializeField] private Brain _brain;
+            [SerializeField] private BasicBrain _brain;
             [SerializeField] private Transform _transform;
             [SerializeField] private Rigidbody _rb;
             [SerializeField] private Camera _camera;
@@ -45,6 +45,16 @@ namespace Core
 
             private Vector3 _direction;
 
+
+            // Anim stuff
+            [SerializeField] private Animator _animator;
+
+            private static readonly int AnimSpeed = Animator.StringToHash("Speed");
+            private static readonly int AnimIsGrounded = Animator.StringToHash("IsGrounded");
+            private static readonly int AnimIsSprinting = Animator.StringToHash("IsSprinting");
+            private static readonly int AnimJump = Animator.StringToHash("Jump");
+
+
             private void FixedUpdate()
             {
                 CheckPlatform();
@@ -52,6 +62,7 @@ namespace Core
                 Move();
                 GravityChanges();
                 CameraAdjustement();
+                UpdateAnimations();
             }
 
             [Button]
@@ -107,19 +118,20 @@ namespace Core
 
             private void CameraAdjustement()
             {
-                Vector3 cameraForward = _camera.transform.forward;
-                cameraForward.y = 0;
-                cameraForward.Normalize();
+                
+                Vector3 newForward = _rb.linearVelocity;
+                newForward.y = 0;
+                newForward.Normalize();
 
-                if (cameraForward != Vector3.zero)
+                if (newForward != Vector3.zero)
                 {
-                    _transform.forward = cameraForward;
+                    _transform.forward = newForward;
                 }
             }
 
             private void Jump()
             {
-                if (!_canUseSprint)
+                if (!_canUseJump)
                 {
                     return;
                 }
@@ -130,6 +142,8 @@ namespace Core
                     _hasJumped = true;
                     _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
                     _rb.AddForce(new Vector3(0, _jumpStrength, 0), ForceMode.Impulse);
+
+                    _animator?.SetTrigger(AnimJump);
                 }
                 else if (_jumpsLeft > 0 && !_isGrounded && _pressedJump)
                 {
@@ -137,6 +151,8 @@ namespace Core
                     _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0, _rb.linearVelocity.z);
                     _rb.AddForce(new Vector3(0, _airJumpStrength, 0), ForceMode.Impulse);
                     _jumpsLeft--;
+
+                    _animator?.SetTrigger(AnimJump);
                 }
                 _pressedJump = false;
             }
@@ -209,6 +225,22 @@ namespace Core
                 Gizmos.color = Color.green;
                 Gizmos.DrawLine(_transform.position + _raycastPos, _transform.position + _raycastPos - new Vector3(_transform.up.x, _transform.up.y * _raycastLength, _transform.up.z));
             }
+
+
+            private void UpdateAnimations()
+            {
+                if (_animator == null) return;
+
+                Vector3 horizontalVelocity = _rb.linearVelocity;
+                horizontalVelocity.y = 0;
+
+                float speed = horizontalVelocity.magnitude;
+
+                _animator.SetFloat(AnimSpeed, speed);
+                _animator.SetBool(AnimIsGrounded, _isGrounded);
+                _animator.SetBool(AnimIsSprinting, _isSprinting && speed > 0.1f);
+            }
+
         }
     }
 }

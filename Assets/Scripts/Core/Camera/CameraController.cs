@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 namespace Core
@@ -21,6 +22,23 @@ namespace Core
 
             [SerializeField] private bool _canControl;
 
+            private float _rotationY;
+            private float _rotationX;
+
+            private float _distanceFromTarget = 3.0f;
+
+            private Vector3 _currentRotation;
+            private Vector3 _smoothVelocity = Vector3.zero;
+
+            [SerializeField]
+            private float _smoothTime = 0.2f;
+
+            [SerializeField]
+            private Vector2 _rotationXMinMax = new Vector2(-40, 40);
+
+            [SerializeField] private InputActionReference _cameraLook;
+            [SerializeField] private InputActionReference _resetCamera;
+
 
             public void EnableControl(bool canControl)
             {
@@ -29,7 +47,14 @@ namespace Core
 
             private void Start()
             {
-                
+                _currentCameraSettings = ScriptableObject.CreateInstance<CameraSettings>();
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
+            private void OnDestroy()
+            {
+                _resetCamera.action.started -= SnapCameraBehindTarget;
             }
 
             private void LateUpdate()
@@ -39,7 +64,6 @@ namespace Core
                 _currentOffset = _currentCameraSettings.TargetOffset;
 
                 UpdatePosition();
-                LookAt();
             }
 
             private void LookAt()
@@ -58,7 +82,22 @@ namespace Core
 
             private void UpdatePosition()
             {
+                //Vector2 mouseDelta = _cameraLook.action.ReadValue<Vector2>();
+                Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+                float mouseX = mouseDelta.x * _sensitivity * Time.deltaTime;
+                float mouseY = mouseDelta.y * _sensitivity * Time.deltaTime * -1;
 
+                _rotationY += mouseX;
+                _rotationX += mouseY;
+
+                _rotationX = Mathf.Clamp(_rotationX, _rotationXMinMax.x, _rotationXMinMax.y);
+
+                Vector3 nextRotation = new Vector3(_rotationX, _rotationY);
+
+                _currentRotation = Vector3.SmoothDamp(_currentRotation, nextRotation, ref _smoothVelocity, _smoothTime);
+                transform.localEulerAngles = _currentRotation;
+
+                transform.position = _targetObject.transform.position - transform.forward * _distanceFromTarget;
             }
 
             public void ChangeTarget(Vector3 target)
@@ -71,11 +110,11 @@ namespace Core
                 _isTargetAnObject = true;
             }
 
-            public void SnapCameraBehindTarget()
+            private void SnapCameraBehindTarget(InputAction.CallbackContext obj)
             {
                 if (_isTargetAnObject)
                 {
-
+                    //_targetObject.transform.forward;
                 }
             }
 
