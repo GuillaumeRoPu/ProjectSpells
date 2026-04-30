@@ -80,8 +80,8 @@ namespace Core
 
             private void UpdatePosition()
             {
-                //Vector2 mouseDelta = _cameraLook.action.ReadValue<Vector2>();
-                Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+                Vector2 mouseDelta = _cameraLook.action.ReadValue<Vector2>();
+                //Vector2 mouseDelta = Mouse.current.delta.ReadValue();
                 float mouseX = mouseDelta.x * _sensitivity * Time.deltaTime;
                 float mouseY = mouseDelta.y * _sensitivity * Time.deltaTime * -1;
 

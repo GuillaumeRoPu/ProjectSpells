@@ -341,11 +341,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 77ab0affb0bb62746a058e5c134ab22b, type: 3}
   m_PrefabInstance: {fileID: 442767107}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &491641630 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 77ab0affb0bb62746a058e5c134ab22b, type: 3}
-  m_PrefabInstance: {fileID: 442767107}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &914946116
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +827,7 @@ MonoBehaviour:
   _baseCamSettings: {fileID: 11400000, guid: cce733f18b4c4a643be0e8827a1bd765, type: 2}
   _scopeCamSettings: {fileID: 11400000, guid: cce733f18b4c4a643be0e8827a1bd765, type: 2}
   _canControl: 1
-  _smoothTime: 0.1
+  _smoothTime: 0
   _rotationXMinMax: {x: -60, y: 60}
   _cameraLook: {fileID: 951459965503470112, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   _resetCamera: {fileID: 1316976131943203350, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
@@ -987,7 +982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicBrain
   _camera: {fileID: 1925527432}
   _moveInput: {fileID: -4741699554037180428, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
-  _inputNext: {fileID: 1259966569330181513, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
+  _inputNext: {fileID: -7100491333052393456, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   _inputPrior: {fileID: 1259966569330181513, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   _leftClickInput: {fileID: -9066888835323221125, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
   _useInput: {fileID: -5105033343117443419, guid: 4cb8b7aa60001af418f216ca87106681, type: 3}
@@ -1028,7 +1023,7 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 256
-  _animator: {fileID: 491641630}
+  _animator: {fileID: 1985009481}
 --- !u!54 &1944919927
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1056,6 +1051,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!95 &1985009481 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 77ab0affb0bb62746a058e5c134ab22b, type: 3}
+  m_PrefabInstance: {fileID: 442767107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
