@@ -1,3 +1,4 @@
+using Core.Menu;
 using Core.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -141,10 +142,12 @@ public class BasicBrain : MonoBehaviour
     {
         if (GameManager.GM.State == GameManager.GameState.UI)
         {
-
+            GameManager.GM.ChangeState(GameManager.GameState.Gameplay);
         }
         else if (GameManager.GM.State == GameManager.GameState.Gameplay)
         {
+            GameManager.GM.ChangeState(GameManager.GameState.UI);
+            PageController.Instance.TurnPageOn(PageType.Inventory);
         }
     }
 }

@@ -11,7 +11,7 @@ public class CommonInterractable : MonoBehaviour, IInteractable
     void Start()
     {
         _activated = false;
-        _renderer.material = _material2;
+        _renderer.material = _material1;
     }
 
     // Update is called once per frame

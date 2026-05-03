@@ -47,7 +47,7 @@ namespace Core
 
             private void Start()
             {
-
+                _resetCamera.action.started += SnapCameraBehindTarget;
             }
 
             private void OnDestroy()
@@ -118,10 +118,21 @@ namespace Core
 
             private void SnapCameraBehindTarget(InputAction.CallbackContext obj)
             {
-                if (_isTargetAnObject)
-                {
-                    //_targetObject.transform.forward;
-                }
+
+                if (!_isTargetAnObject || _targetObject == null)
+                    return;
+
+                float targetYaw = _targetObject.transform.eulerAngles.y;
+
+                _rotationY = targetYaw;
+                _rotationX = 0f;
+
+                _currentRotation = new Vector3(_rotationX, _rotationY);
+                _smoothVelocity = Vector3.zero;
+                transform.localEulerAngles = _currentRotation;
+
+                transform.position = _targetObject.transform.position - transform.forward * _distanceFromTarget;
+
             }
 
             public void SwitchCamSettings(CameraSettings settings, TransitionCamSettings transition = null)
