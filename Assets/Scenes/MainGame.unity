@@ -836,7 +836,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1735720837}
         m_TargetAssemblyTypeName: InventoryManager, Assembly-CSharp
         m_MethodName: EnableItemsRemove
         m_Mode: 1
